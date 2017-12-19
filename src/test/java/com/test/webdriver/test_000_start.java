@@ -5,16 +5,23 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.concurrent.TimeUnit;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class test_000_start {
 
-    private final WebDriver chrome = new ChromeDriver();
+    private WebDriver chrome = new ChromeDriver();
 
     @Test
     public void goToStand(){
         chrome.get("http://stand.vtb.jtcc.ru:16006/");
         assertEquals("VTB DBO front", chrome.getTitle());
+        chrome.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
     @Test
@@ -41,6 +48,7 @@ public class test_000_start {
     public void allInOne(){
         goToStand();
         logIn();
+        chrome.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         createRP();
         //chrome.quit();
     }
