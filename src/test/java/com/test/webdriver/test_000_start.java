@@ -131,7 +131,7 @@ public class test_000_start {
 		
 		
 		// PART 2: invalid/unknown BIC; might be the VTBDBOLAB48_08
-		System.out.println("Test 48/04_2");
+		System.out.print("Test 48/04_2");
 		do {
 			fBIC.clear();
 			fBIC.sendKeys(Data.NUMBERS_9x0);
