@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
@@ -14,12 +15,13 @@ import static org.junit.Assert.assertTrue;
 public class test_000_start {
 
     private WebDriver chrome = new ChromeDriver();
-    private WebElement formRP;
-    private WebElement bicField;
-    private WebElement temp;
+    private WebElement formNewRP;   // form: Creating RP
+    private WebElement fBIC;        // field: BIC
+	private WebElement bSaveRP;     // button: Save on creating RP form
+    private WebElement temp;        // anything, actually
     
     // 'cuz .getText() doesn't work the way I want
-    public String getValue (WebElement elem) {
+    private String getValue (WebElement elem) {
     	return elem.getAttribute("value");
     }
 	
@@ -46,7 +48,7 @@ public class test_000_start {
     }
 	
 	/** Открыть и загрузить данные в форму создания нового ПП
-	 *  + заполнение переменных WebElement formRP, bicField
+	 *  + заполнение переменных WebElement formNewRP, fBIC
 	 *  * Используется temp
 	 */
 	public void createRP() {
@@ -55,16 +57,16 @@ public class test_000_start {
         buttonCreate.click();
 	    System.out.println("- Pressed 'Create RP'.");
 	
-	    formRP = chrome.findElement(By.xpath("//*[@id=\"appframe\"]/form"));
-	    System.out.println("- formRP received.");
+	    formNewRP = chrome.findElement(By.xpath("//*[@id=\"appframe\"]/form"));
+	    System.out.println("- formNewRP received.");
 	    
-	    temp = formRP.findElement(By.xpath("//div[@title=\"Расчетный счет плательщика\"]/div[2]/div[1]/input"));
+	    temp = formNewRP.findElement(By.xpath("//div[@title=\"Расчетный счет плательщика\"]/div[2]/div[1]/input"));
 	    // Form is loading while text in field is empty
 	    while (getValue(temp).isEmpty());
 	    System.out.println("- while-loop is over; tmp value: " + getValue(temp));
 	    
-	    bicField = formRP.findElement(By.xpath("//div[@title='БИК']/div[2]/div[1]/input"));
-        System.out.println("- Found bicField.");
+	    fBIC = formNewRP.findElement(By.xpath("//div[@title='БИК']/div[2]/div[1]/input"));
+        System.out.println("- Found fBIC.");
     }
 	
 	/** Проверить поле "БИК банка получателя"
@@ -73,7 +75,7 @@ public class test_000_start {
 	 */
 	public void vtbdbolab48_01() {
         System.out.print("Test 48/01 ");
-        assertTrue("48/01 FAILED", getValue(bicField).isEmpty());
+        assertTrue("48/01 FAILED", getValue(fBIC).isEmpty());
         System.out.println("PASSED");
     }
 	
@@ -81,24 +83,29 @@ public class test_000_start {
 	 *  Ожидается:
 	 *  Редактирование поля (вручную) возможно
 	 *  // DOESN'T ALWAYS WORK; depends on time. Always successful in Debug
+	 *  // Fixed /\
 	 */
 	public void vtbdbolab48_02() {
 		System.out.print("Test 48/02 ");
-		bicField.clear();
-		bicField.sendKeys(Data.NUMBERS_5x0);
-		assertTrue("48/02 FAILED", getValue(bicField).equals(Data.NUMBERS_5x0));
+		// that way it should be able to work always even when not in Debug
+		do {
+			fBIC.clear();
+			fBIC.sendKeys(Data.NUMBERS_5x0);
+		} while (!getValue(fBIC).equals(Data.NUMBERS_5x0));
+		assertTrue("48/02 FAILED", getValue(fBIC).equals(Data.NUMBERS_5x0));
 		System.out.println("PASSED");
 	}
 	
 	/** Заполнить поле "БИК банка получателя" любыми символами, кроме цифр
 	 *  Ожидается:
 	 *  Ввод невозможен (= в поле не сохраняются передаваемые символы)
+	 *  // MAY or MAY NOT work. Workaround as in vtbdbolab48_02 won't help
 	 */
 	public void vtbdbolab48_03() {
 		System.out.print("Test 48/03 ");
-		bicField.clear();
-		bicField.sendKeys(Data.NO_DIGITS_STRING);
-		assertTrue("48/03 FAILED", getValue(bicField).isEmpty());
+		fBIC.clear();
+		fBIC.sendKeys(Data.NO_DIGITS_STRING);
+		assertTrue("48/03 FAILED", getValue(fBIC).isEmpty());
 		System.out.println("PASSED");
 	}
 	
@@ -107,25 +114,35 @@ public class test_000_start {
 	 *  Ожидается:
 	 *  1) Контроли на длину поля не сработали (= ?..)
 	 *  2) Сработал контроль на несуществующий БИК
-	 *  * Используется temp
+	 *  * Используется temp, bSaveRP
 	 */
 	public void vtbdbolab48_04() {
 		// PART 1: valid BIC
 		System.out.print("Test 48/04_1 (stub) ");
-		bicField.clear();
-		bicField.sendKeys(Data.FONSERVICEBANK_BAIKONUR_BIC);
+		fBIC.clear();
+		fBIC.sendKeys(Data.FONSERVICEBANK_BAIKONUR_BIC);
+		
+		List<WebElement> errorTooltips = formNewRP.findElements(By.xpath("//div[@class=\"field__tooltip field_tooltip_error\"]"));
+		
+		// WiP here
 
-		System.out.println("PASSED");
+		System.out.println();//"PASSED");
 
 		
 		
 		// PART 2: invalid/unknown BIC; might be the VTBDBOLAB48_08
 		System.out.println("Test 48/04_2");
-		bicField.clear();
-		bicField.sendKeys(Data.NUMBERS_9x0);
-		// //div[@class="field__tooltip field__tooltip_error"]
-		temp = formRP.findElement(By.xpath("//div[@title=\"БИК\"]/div[2]/div[3]"));
-		System.out.println("'" + temp.getText() + "'");
+		do {
+			fBIC.clear();
+			fBIC.sendKeys(Data.NUMBERS_9x0);
+		} while (!getValue(fBIC).equals(Data.NUMBERS_9x0));
+		
+		bSaveRP = formNewRP.findElement(By.xpath("//div[@class=\"menuActions__group\"][2]/div[1]/button"));
+		bSaveRP.click();
+		temp = formNewRP.findElement(By.xpath("//div[@title=\"БИК\"]/div[2]/div[3]")); // error msg
+		//System.out.println("'" + temp.getText() + "'");
+		assertTrue("48/04_2 FAILED", temp.getText().equals(Data.BIC_UNKNOWN));
+		
 		System.out.println("PASSED");
 	}
 	
@@ -138,7 +155,7 @@ public class test_000_start {
         
         createRP();
         vtbdbolab48_01();
-		//vtbdbolab48_02();
+		vtbdbolab48_02();
         vtbdbolab48_03();
         vtbdbolab48_04();
         
