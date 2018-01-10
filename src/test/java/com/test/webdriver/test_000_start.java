@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -25,51 +24,14 @@ public class test_000_start {
     	return elem.getAttribute("value");
     }
 	
-	/** Перейти на стенд (+ начальная настройка WebDriver'а)
-	 */
-	public void goToStand() {
-        chrome.get("http://stand.vtb.jtcc.ru:16006/");
-	    chrome.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        assertEquals("VTB DBO front", chrome.getTitle());
-    }
-	
-	/** Авторизоваться в системе
-	 */
-	public void logIn() {
-        WebElement loginField = chrome.findElement(By.xpath("//input[@placeholder='Логин']"));
-        WebElement passwordField = chrome.findElement(By.xpath("//input[@type='password']"));
-        WebElement buttonLogIn = chrome.findElement(By.xpath("//button[text()='Войти']"));
-	    
-//        loginField.sendKeys(Data.CLIENT_LOGIN);
-//        passwordField.sendKeys(Data.CLIENT_PSWRD);
-	    buttonLogIn.click();
-    }
-	
-	/** Открыть и загрузить данные в форму создания нового ПП
-	 *  + Используется formNewRP, fBIC
-	 *  * Используется temp
-	 */
-	public void createRP() {
-        // button: Create RP
-		temp = chrome.findElement(By.xpath(".//*[text()='Создать ПП']/.."));
-        temp.click();
-
-	    formNewRP = chrome.findElement(By.xpath("//*[@id=\"appframe\"]/form"));
-		
-	    // field: random. Account works good for this
-	    temp = formNewRP.findElement(By.xpath("//div[@title=\"Расчетный счет плательщика\"]/div[2]/div[1]/input"));
-		// Form is loading while value in field is empty
-	    while (getValue(temp).isEmpty());
-	    
-	    fBIC = formNewRP.findElement(By.xpath("//div[@title='БИК']/div[2]/div[1]/input"));
-    }
-	
 	/** Проверить поле "БИК банка получателя"
 	 *  Ожидается:
 	 *  Поле пустое
+	 *  + Используется fBIC
 	 */
-	public void vtbdbolab48_01() {
-        System.out.print("Test 48/01 ");
+	void vtbdbolab48_01() {
+		fBIC = formNewRP.findElement(By.xpath("//div[@title='БИК']/div[2]/div[1]/input"));
+		System.out.print("Test 48/01 ");
         assertTrue("48/01 FAILED", getValue(fBIC).isEmpty());
         System.out.println("PASSED");
     }
@@ -78,7 +40,7 @@ public class test_000_start {
 	 *  Ожидается:
 	 *  Редактирование поля (вручную) возможно
 	 */
-	public void vtbdbolab48_02() {
+	void vtbdbolab48_02() {
 		System.out.print("Test 48/02 ");
 		// that way it works always - even when not in Debug
 		do {
@@ -94,7 +56,7 @@ public class test_000_start {
 	 *  Ввод невозможен (= в поле не сохраняются передаваемые символы)
 	 *  // MAY or MAY NOT work. Workaround as in vtbdbolab48_02 won't help
 	 */
-	public void vtbdbolab48_03() {
+	void vtbdbolab48_03() {
 		System.out.print("Test 48/03 ");
 		fBIC.clear();
 		fBIC.sendKeys(Data.NO_DIGITS_STRING);
@@ -110,7 +72,9 @@ public class test_000_start {
 	 *  + Используется bSaveRP
 	 *  * Используется temp
 	 */
-	public void vtbdbolab48_04() {
+	void vtbdbolab48_04() {
+		bSaveRP = formNewRP.findElement(By.xpath("//div[@class=\"menuActions__group\"][2]/div[1]/button"));
+
 		// PART 1: valid BIC
 		System.out.print("Test 48/04_1 (stub) ");
 		fBIC.clear();
@@ -125,16 +89,15 @@ public class test_000_start {
 		
 		
 		// PART 2: invalid/unknown BIC; might be the VTBDBOLAB48_08
-		System.out.print("Test 48/04_2");
+		System.out.print("Test 48/04_2 ");
 		do {
 			fBIC.clear();
 			fBIC.sendKeys(Data.NUMBERS_9x0);
 		} while (!getValue(fBIC).equals(Data.NUMBERS_9x0));
 		
-		bSaveRP = formNewRP.findElement(By.xpath("//div[@class=\"menuActions__group\"][2]/div[1]/button"));
 		bSaveRP.click();
-		temp = formNewRP.findElement(By.xpath("//div[@title=\"БИК\"]/div[2]/div[3]")); // error msg
-		//System.out.println("'" + temp.getText() + "'");
+		// error tooltip: get message text
+		temp = formNewRP.findElement(By.xpath("//div[@title=\"БИК\"]/div[2]/div[3]"));
 		assertTrue("48/04_2 FAILED", temp.getText().equals(Data.BIC_UNKNOWN));
 		
 		System.out.println("PASSED");
@@ -142,12 +105,13 @@ public class test_000_start {
 	
 	@Test
     public void makeItHappen() {
-        goToStand();
-        logIn();
-        
-        
-        
-        createRP();
+    
+		LogInPage.goToStand(chrome, "http://stand.vtb.jtcc.ru:16006/");
+		LogInPage.logIn(chrome);
+		formNewRP = LogInPage.newRP(chrome);
+
+		
+		
         vtbdbolab48_01();
 		vtbdbolab48_02();
         vtbdbolab48_03();
