@@ -13,7 +13,6 @@ import static org.junit.Assert.assertTrue;
 
 public class test_000_start {
 
-    private WebDriver chrome = new ChromeDriver();
     private WebElement formNewRP;   // form: Creating RP
     private WebElement fBIC;        // field: BIC
 	private WebElement bSaveRP;     // button: Save on creating RP form
@@ -106,12 +105,12 @@ public class test_000_start {
 	@Test
     public void makeItHappen() {
     
-		LogInPage.goToStand(chrome, "http://stand.vtb.jtcc.ru:16006/");
-		LogInPage.logIn(chrome);
-		formNewRP = LogInPage.newRP(chrome);
+		LogInPage start = new LogInPage("http://stand.vtb.jtcc.ru:16006/", "VTB DBO front");
+		start.logIn();
+		formNewRP = start.newRP(); // not sure if it should be in LogInPage class...
 
-		
-		
+
+
         vtbdbolab48_01();
 		vtbdbolab48_02();
         vtbdbolab48_03();
