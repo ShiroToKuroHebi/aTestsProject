@@ -10,6 +10,9 @@ public interface Data {
     
     // Random Data
 	String NUMBERS_5x0 = "00000";
+	String NUMBERS_9x0 = "000000000";
 	String NO_DIGITS_STRING = "qazWSX~!@#$%^&*()\".,;:'[]{}-_=+`?/\\|<>увсКАМ№";
-    
+ 
+	// Control messages
+	String BIC_UNKNOWN = "Указанный БИК не найден в справочнике российских банков, выполнение проверки ключа счета не доступно";
 }
