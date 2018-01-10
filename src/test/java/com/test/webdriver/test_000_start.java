@@ -18,9 +18,9 @@ public class test_000_start {
     private WebElement formNewRP;   // form: Creating RP
     private WebElement fBIC;        // field: BIC
 	private WebElement bSaveRP;     // button: Save on creating RP form
-    private WebElement temp;        // anything, actually
+    private WebElement temp;        // anything, actually. Specified when used
     
-    // 'cuz .getText() doesn't work the way I want
+    // 'cuz .getText() doesn't work the way I want :p
     private String getValue (WebElement elem) {
     	return elem.getAttribute("value");
     }
@@ -31,7 +31,6 @@ public class test_000_start {
         chrome.get("http://stand.vtb.jtcc.ru:16006/");
 	    chrome.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         assertEquals("VTB DBO front", chrome.getTitle());
-        System.out.println("- Got to VTB stand.");
     }
 	
 	/** Авторизоваться в системе
@@ -44,29 +43,25 @@ public class test_000_start {
 //        loginField.sendKeys(Data.CLIENT_LOGIN);
 //        passwordField.sendKeys(Data.CLIENT_PSWRD);
 	    buttonLogIn.click();
-	    System.out.println("- Pressed button.");
     }
 	
 	/** Открыть и загрузить данные в форму создания нового ПП
-	 *  + заполнение переменных WebElement formNewRP, fBIC
+	 *  + Используется formNewRP, fBIC
 	 *  * Используется temp
 	 */
 	public void createRP() {
-        WebElement buttonCreate = chrome.findElement(By.xpath(".//*[text()='Создать ПП']/.."));
+        // button: Create RP
+		temp = chrome.findElement(By.xpath(".//*[text()='Создать ПП']/.."));
+        temp.click();
 
-        buttonCreate.click();
-	    System.out.println("- Pressed 'Create RP'.");
-	
 	    formNewRP = chrome.findElement(By.xpath("//*[@id=\"appframe\"]/form"));
-	    System.out.println("- formNewRP received.");
-	    
+		
+	    // field: random. Account works good for this
 	    temp = formNewRP.findElement(By.xpath("//div[@title=\"Расчетный счет плательщика\"]/div[2]/div[1]/input"));
-	    // Form is loading while text in field is empty
+		// Form is loading while value in field is empty
 	    while (getValue(temp).isEmpty());
-	    System.out.println("- while-loop is over; tmp value: " + getValue(temp));
 	    
 	    fBIC = formNewRP.findElement(By.xpath("//div[@title='БИК']/div[2]/div[1]/input"));
-        System.out.println("- Found fBIC.");
     }
 	
 	/** Проверить поле "БИК банка получателя"
@@ -82,12 +77,10 @@ public class test_000_start {
 	/** Заполнить "вручную" поле "БИК банка получателя"
 	 *  Ожидается:
 	 *  Редактирование поля (вручную) возможно
-	 *  // DOESN'T ALWAYS WORK; depends on time. Always successful in Debug
-	 *  // Fixed /\
 	 */
 	public void vtbdbolab48_02() {
 		System.out.print("Test 48/02 ");
-		// that way it should be able to work always even when not in Debug
+		// that way it works always - even when not in Debug
 		do {
 			fBIC.clear();
 			fBIC.sendKeys(Data.NUMBERS_5x0);
@@ -114,7 +107,8 @@ public class test_000_start {
 	 *  Ожидается:
 	 *  1) Контроли на длину поля не сработали (= ?..)
 	 *  2) Сработал контроль на несуществующий БИК
-	 *  * Используется temp, bSaveRP
+	 *  + Используется bSaveRP
+	 *  * Используется temp
 	 */
 	public void vtbdbolab48_04() {
 		// PART 1: valid BIC
