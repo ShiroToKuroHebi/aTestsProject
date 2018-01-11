@@ -7,16 +7,18 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class test_000_start {
 
-    private WebElement formNewRP;   // form: Creating RP
-    private WebElement fBIC;        // field: BIC
-	private WebElement bSaveRP;     // button: Save on creating RP form
-    private WebElement temp;        // anything, actually. Specified when used
+    WebDriver chrome = new ChromeDriver();
+	WebElement formNewRP;   // form: Creating RP
+    WebElement fBIC;        // field: BIC
+	WebElement bSaveRP;     // button: Save on creating RP form
+    WebElement temp;        // anything, actually. Specified when used
     
     // 'cuz .getText() doesn't work the way I want :p
     private String getValue (WebElement elem) {
@@ -105,10 +107,21 @@ public class test_000_start {
 	@Test
     public void makeItHappen() {
     
-		LogInPage start = new LogInPage("http://stand.vtb.jtcc.ru:16006/", "VTB DBO front");
-		start.logIn();
-		formNewRP = start.newRP(); // not sure if it should be in LogInPage class...
-
+		chrome.get("http://stand.vtb.jtcc.ru:16006/");
+		chrome.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		//assertEquals("Wrong URL!", %expectedTitle%, chrome.getTitle());
+		
+		LogInPage start = new LogInPage(chrome);
+		//start.logIn();
+		start.clickLoginButton();
+		
+		MainPage main = new MainPage(chrome);
+		main.openFormCreateNewRP();
+		
+		NewRPForm newRP = new NewRPForm(chrome);
+		newRP.waitForDataLoadOnForm();
+		
+		formNewRP = newRP.form; // to be changed
 
 
         vtbdbolab48_01();

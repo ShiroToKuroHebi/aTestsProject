@@ -1,9 +1,8 @@
 package com.test.webdriver;
 
+/** Just general stuff
+ */
 public interface Data {
-    // Authentication
-    String CLIENT_LOGIN = "1111111111";
-    String CLIENT_PSWRD = "1111111111";
 	
     // Bank Data
     String FONSERVICEBANK_BAIKONUR_BIC = "040037470";

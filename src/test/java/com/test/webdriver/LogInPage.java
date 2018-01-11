@@ -3,33 +3,24 @@ package com.test.webdriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-
-import java.util.concurrent.TimeUnit;
-
-import static org.junit.Assert.assertEquals;
 
 class LogInPage {
 	
 	WebDriver drvr;
 	
-	/** Авторизоваться в системе
+	private By fieldUsername = By.xpath("//input[@type='text']");
+	private By fieldPassword = By.xpath("//input[@type='password']");
+	private By buttonLogin = By.xpath("//button[text()='Войти']");
+	
+	String CLIENT_LOGIN = "1111111111";
+	String CLIENT_PSWRD = "1111111111";
+	
+	/** Авторизоваться в системе с именем пользователя CLIENT_LOGIN и паролем CLIENT_PSWRD
 	 */
 	void logIn() {
-		WebElement formLogIn = this.drvr.findElement(By.xpath("//form"));
-		WebElement loginField = formLogIn.findElement(By.xpath("//input[@type='text']"));
-		WebElement passwordField = formLogIn.findElement(By.xpath("//input[@type='password']"));
-		WebElement buttonLogIn = formLogIn.findElement(By.xpath("//button[text()='Войти']"));
-		
-		do {
-			loginField.clear();
-			loginField.sendKeys(Data.CLIENT_LOGIN);
-		} while (!loginField.getAttribute("value").equals(Data.CLIENT_LOGIN));
-		do {
-			passwordField.clear();
-			passwordField.sendKeys(Data.CLIENT_PSWRD);
-		} while (!loginField.getAttribute("value").equals(Data.CLIENT_PSWRD));
-		buttonLogIn.click();
+		typeUsername();
+		typePassword();
+		clickLoginButton();
 	}
 	
 	/** Открыть и загрузить данные в форму создания нового ПП
@@ -50,12 +41,39 @@ class LogInPage {
 		return formNewRP;
 	}
 	
-	/** Перейти на стенд (+ начальная настройка WebDriver'а)
+	/** Получить уже преднастроенный драйвер
 	 */
-	public LogInPage(String url, String expectedTitle) {
-		drvr = new ChromeDriver();
-		drvr.get(url);
-		drvr.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		assertEquals("Wrong URL!", expectedTitle, drvr.getTitle());
+	public LogInPage(WebDriver driver) {
+		drvr = driver;
+	}
+	
+	/** Заполнить поле имени пользователя строкой CLIENT_LOGIN
+	 */
+	public void typeUsername() {
+		WebElement loginField = this.drvr.findElement(fieldUsername);
+		
+		do {
+			loginField.clear();
+			loginField.sendKeys(CLIENT_LOGIN);
+		} while (!loginField.getAttribute("value").equals(CLIENT_LOGIN));
+	}
+	
+	/** Заполнить поле пароля пользователя строкой CLIENT_PSWRD
+	 */
+	public void typePassword() {
+		WebElement passwordField = this.drvr.findElement(fieldPassword);
+		
+		do {
+			passwordField.clear();
+			passwordField.sendKeys(CLIENT_PSWRD);
+		} while (!passwordField.getAttribute("value").equals(CLIENT_PSWRD));
+	}
+	
+	/** DO IT!
+	 *  JUST... Log in!
+	 *  // push the button
+	 */
+	public void clickLoginButton() {
+		drvr.findElement(buttonLogin).click();
 	}
 }
