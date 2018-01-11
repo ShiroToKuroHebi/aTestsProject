@@ -5,7 +5,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -81,7 +80,7 @@ public class test_000_start {
 		bSaveRP = fNewRP.findElement(By.xpath("//div[@class=\"menuActions__group\"][2]/div[1]/button"));
 
 		// PART 1: valid BIC
-		System.out.print("Test 48/04_1 (stub) ");
+		System.out.print("Test 48/04 (stub)");
 		fBIC.clear();
 		fBIC.sendKeys(Data.FONSERVICEBANK_BAIKONUR_BIC);
 		
@@ -184,7 +183,7 @@ public class test_000_start {
 		// error tooltip: get message text
 		temp = newRPForm.fNewRP.findElement(By.xpath("//div[@title=\"БИК\"]/div[2]/div[3]"));
 		//assertTrue("48/08 FAILED", temp.getText().equals(NewRPForm.BIC_UNKNOWN));
-		// this also means that passed unknown 9-digit BIC doesn't trigger length check error
+		// this also means that passed unknown 9-digit BIC doesn't trigger length check error (vtbdbolab48_04)
 		
 		System.out.println("PASSED (KINDA)");
 	}
@@ -195,7 +194,9 @@ public class test_000_start {
 	 *  Блок получателя раскрыт. Поверх метки-переключателя выведено сообщение "Необходимо заполнить реквизиты"
 	 */
 	void vtbdbolab48_09(NewRPForm newRPForm){
-	
+		System.out.print("Test 48/09 ");
+		
+		System.out.println();//("PASSED");
 	}
 	
 	@Test
@@ -215,11 +216,11 @@ public class test_000_start {
 		this.fNewRP = newRP.fNewRP; // to be changed
 
 
-//		vtbdbolab48_01();
-//		vtbdbolab48_02();
-//		vtbdbolab48_03();
-//		vtbdbolab48_04(); // !WiP!
-//		vtbdbolab48_05();
+		vtbdbolab48_01();
+		vtbdbolab48_02();
+		vtbdbolab48_03();
+		vtbdbolab48_04(); // !WiP!
+		vtbdbolab48_05();
 		
         newRP.close();
 		main.openFormCreateNewRP();

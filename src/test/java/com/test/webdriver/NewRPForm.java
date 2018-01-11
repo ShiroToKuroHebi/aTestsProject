@@ -7,8 +7,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 class NewRPForm {
-	
 	WebDriver drvr;
+	WebDriverWait wait;
 	
 	// Control messages
 	static String BIC_UNKNOWN = "Указанный БИК не найден в справочнике российских банков";//, выполнение проверки ключа счета не доступно";
@@ -33,6 +33,7 @@ class NewRPForm {
 	 */
 	public NewRPForm (WebDriver driver) {
 		drvr = driver;
+		wait = (new WebDriverWait(drvr, 10));
 		
 		fNewRP = drvr.findElement(formNewRP);
 		bRecBIC = fNewRP.findElement(buttonReceiverBIC);
@@ -52,7 +53,6 @@ class NewRPForm {
 	/** Close the form
 	 */
 	void close() {
-		WebDriverWait wait = (new WebDriverWait(drvr, 10));
 		wait.until(ExpectedConditions.elementToBeClickable(bClose));
 		bClose.click();
 		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("appframe")));

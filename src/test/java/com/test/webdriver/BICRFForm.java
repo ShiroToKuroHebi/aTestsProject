@@ -27,10 +27,9 @@ public class BICRFForm {
 	/** Closes the overlay when 'Apply' is pressed
 	 */
 	String chooseFirstInTable(){
-		String BIC = fBIC.findElement(elementFirstBICInTable).getText();
+		String bic = fBIC.findElement(elementFirstBICInTable).getText();
 		fBIC.findElement(elementFirstBICInTable).click();
 		fBIC.findElement(buttonApply).click();
-		return BIC;
+		return bic;
 	}
 }
-//
