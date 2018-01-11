@@ -11,8 +11,8 @@ public class BICRFForm {
 	String fHeader = "Российские банки (БИК РФ)";
 	
 	//By formBIC = By.xpath("//div[text()=\""+fHeader+"\"]/ancestor::?..");
-	By formBIC = By.xpath("//div[text()=\"" + fHeader + "\"]/../../.."); //3rd parent from header - that's a form
-	By rowFirstInTable = By.xpath(".//div[@class=\"table__body\"]/div[1]");
+	By formBIC = By.xpath("//div[text()=\"" + fHeader + "\"]/../../.."); //3rd parent from header - the form we need
+	By elementFirstBICInTable = By.xpath(".//div[@class=\"table__body\"]/div[1]/div[1]/div/span");
 	By buttonApply = By.xpath(".//button[@class=\"Button__base--3ZP3W Button__basePrimary--3ryz2\"]"); //don't like this
 	
 	WebElement fBIC;
@@ -26,9 +26,11 @@ public class BICRFForm {
 	
 	/** Closes the overlay when 'Apply' is pressed
 	 */
-	void chooseFirstInTable(){
-		fBIC.findElement(rowFirstInTable).click();
+	String chooseFirstInTable(){
+		String BIC = fBIC.findElement(elementFirstBICInTable).getText();
+		fBIC.findElement(elementFirstBICInTable).click();
 		fBIC.findElement(buttonApply).click();
+		return BIC;
 	}
 }
 //

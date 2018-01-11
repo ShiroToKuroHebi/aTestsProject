@@ -10,6 +10,11 @@ class NewRPForm {
 	
 	WebDriver drvr;
 	
+	// Control messages
+	static String BIC_UNKNOWN = "Указанный БИК не найден в справочнике российских банков";//, выполнение проверки ключа счета не доступно";
+	static String BIC_TOO_SHORT = "БИК должен состоять из 9 цифр";
+	static String BIC_MUST_BE_NONEMPTY = "Поле БИК банка получателя обязательно для заполнения";
+	
 	private By formNewRP = By.xpath("//form");
 	private By fieldPayerAccount = By.xpath(".//div[@title=\"Расчетный счет плательщика\"]/div[2]/div[1]/input");
 	private By buttonReceiverBIC = By.xpath(".//button[text()=\"БИК\"]");
@@ -47,10 +52,9 @@ class NewRPForm {
 	/** Close the form
 	 */
 	void close() {
-		WebDriverWait timeout = (new WebDriverWait(drvr, 10));
-		timeout.until(ExpectedConditions.elementToBeClickable(bClose));
+		WebDriverWait wait = (new WebDriverWait(drvr, 10));
+		wait.until(ExpectedConditions.elementToBeClickable(bClose));
 		bClose.click();
-		timeout = (new WebDriverWait(drvr, 10));
-		timeout.until(ExpectedConditions.invisibilityOfElementLocated(By.id("appframe")));
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("appframe")));
 	}
 }

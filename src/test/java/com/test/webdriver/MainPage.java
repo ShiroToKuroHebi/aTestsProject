@@ -23,8 +23,8 @@ public class MainPage {
 	 */
 	public void openFormCreateNewRP() {
 		bCreateNewRP = drvr.findElement(buttonCreateNewRP);
-		WebDriverWait timeout = (new WebDriverWait(drvr, 10));
-		timeout.until(ExpectedConditions.elementToBeClickable(bCreateNewRP));
+		WebDriverWait wait = (new WebDriverWait(drvr, 10));
+		wait.until(ExpectedConditions.elementToBeClickable(bCreateNewRP));
 		bCreateNewRP.click();
 	}
 }
