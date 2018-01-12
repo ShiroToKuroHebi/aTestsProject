@@ -6,17 +6,17 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class MainPage {
+class MainPage {
 	WebDriver drvr;
 	WebDriverWait wait;
 	
-	private By buttonCreateNewRP = By.xpath(".//div[text()='Создать ПП']");
+	private final static By buttonCreateNewRP = By.xpath(".//div[text()='Создать ПП']");
 	
-	WebElement bCreateNewRP;
+	private WebElement bCreateNewRP;
 	
 	/** Получить драйвер
 	 */
-	public MainPage (WebDriver driver) {
+	MainPage (WebDriver driver) {
 		drvr = driver;
 		wait = (new WebDriverWait(drvr, 10));
 		
@@ -25,7 +25,7 @@ public class MainPage {
 	
 	/** Press the 'Создать ПП' button
 	 */
-	public void openFormCreateNewRP() {
+	void openFormCreateNewRP() {
 		wait.until(ExpectedConditions.elementToBeClickable(bCreateNewRP));
 		bCreateNewRP.click();
 	}
