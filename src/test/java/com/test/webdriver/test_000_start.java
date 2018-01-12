@@ -220,7 +220,6 @@ public class test_000_start implements Data{
 	 */
 	void vtbdbolab48_09(WebDriver driver){
 		System.out.print("Test 48/09 ");
-		
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		
 		do {
@@ -236,12 +235,24 @@ public class test_000_start implements Data{
 		newRPForm_MT.switchToSimpleTab();
 		
 		
+		
 		NewRPForm_ST newRPForm_ST = new NewRPForm_ST(chrome);
-		newRPForm_ST.form.click();
+		newRPForm_ST.findButtonShowHideRecData();
+		newRPForm_ST.showRecData();
+		do {
+			newRPForm_ST.fRecBIC_ST.clear();
+		} while (!newRPForm_ST.fRecBIC_ST.getAttribute("value").isEmpty());
+		//assertTrue("cleaned BIC field, but can't hide receiver data block", );
+		
+		newRPForm_ST.bShowHideRecData_ST.click();
+		newRPForm_ST.form_ST.click();
+		
+		newRPForm_ST.bCreateRP.click();
+		
+		assertTrue("48/09 FAILED", newRPForm_ST.bShowHideRecData_ST.findElement(By.xpath(".//div")).getText().equals(NewRPForm_ST.invalidReceiverData));
+		
 		newRPForm_ST.close();
-		
-		
-		System.out.println();//("PASSED");
+		System.out.println("PASSED");
 	}
 	
 	@Test
@@ -256,13 +267,13 @@ public class test_000_start implements Data{
 		
 		main.openFormCreateNewRP();
 		vtbdbolab48_01(chrome);
-		
+
 		main.openFormCreateNewRP();
 		vtbdbolab48_02(chrome);
-		
+
 		main.openFormCreateNewRP();
 		vtbdbolab48_03(chrome);
-		
+
 		main.openFormCreateNewRP();
 		vtbdbolab48_04(chrome);
 
@@ -277,7 +288,7 @@ public class test_000_start implements Data{
 
 		main.openFormCreateNewRP();
 		vtbdbolab48_08(chrome);
-        
+
         main.openFormCreateNewRP();
         vtbdbolab48_09(chrome); // !WiP!
         

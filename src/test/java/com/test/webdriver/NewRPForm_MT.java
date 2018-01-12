@@ -22,6 +22,8 @@ class NewRPForm_MT extends NewRPForm{
 	private final static By fieldReceiverBankName_MT = By.xpath(".//textarea[@disabled]"); // may lead to an error?
 	
 	// Elements
+	WebElement form_MT;
+	
 	WebElement bRecBIC_MT;
 	WebElement fRecBIC_MT;
 	WebElement fRecBankName_MT;
@@ -38,14 +40,15 @@ class NewRPForm_MT extends NewRPForm{
 	NewRPForm_MT (WebDriver driver) {
 		drvr = driver;
 		wait = new WebDriverWait(drvr, 10);
-		
 		wait.until(ExpectedConditions.visibilityOfElementLocated(formNewRPMainTab));
 		
 		form = drvr.findElement(formNewRPRoot);
+		bCreateRP = form.findElement(buttonCreateRP);
+
+		form_MT = form.findElement(formNewRPMainTab);
 		bRecBIC_MT = form.findElement(buttonReceiverBIC_MT);
 		fRecBIC_MT = form.findElement(fieldReceiverBIC_MT);
 		fRecBankName_MT = form.findElement(fieldReceiverBankName_MT);
-		bCreateRP = form.findElement(buttonCreateRP);
 
 		waitForDataLoadOnForm();
 	}

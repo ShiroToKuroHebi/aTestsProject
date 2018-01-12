@@ -16,10 +16,10 @@ class NewRPForm {
 	final static By formNewRPSimpleTab = By.xpath("//div[@class=\"PayDocRu__tabContent--muDt2 PayDocRu__simpleTab--1ZXGr\"]");
 	
 	final static By buttonSimpleTabFormLong = By.xpath(".//div[@class=\"PayDocRu__header--3fL7X\"]//div[@class=\"RadioBtns__base--2hihs\"]/button[2]");
-	final static By buttonSimpleTabForm = By.xpath(".//div[@class=\"PayDocRu__header--3fL7X\"]//button[2]"); // may lead to an error?
-	final static By buttonMainTabForm = By.xpath(".//div[@class=\"PayDocRu__header--3fL7X\"]//button[1]"); // may lead to an error?
+	private final static By buttonSimpleTabForm = By.xpath(".//div[@class=\"PayDocRu__header--3fL7X\"]//button[2]"); // may lead to an error?
+	private final static By buttonMainTabForm = By.xpath(".//div[@class=\"PayDocRu__header--3fL7X\"]//button[1]"); // may lead to an error?
+	private final static By buttonCloseForm = By.xpath(".//div[1]/div[1]/div[2]/button"); // 2B changed
 	
-	final static By buttonCloseForm = By.xpath(".//div[1]/div[1]/div[2]/button");
 	final static By buttonCreateRP = By.xpath(".//div[@class=\"menuActions__group\"][2]/div[1]/button");
 	
 	// Elements
