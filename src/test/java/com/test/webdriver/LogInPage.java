@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 class LogInPage {
 	private WebDriver drvr;
 	
-	// Locators
+	// Page-specific locators
 	private final static By fieldUsername = By.xpath("//input[@type='text']");
 	private final static By fieldPassword = By.xpath("//input[@type='password']");
 	private final static By buttonLogin = By.xpath("//button[text()='Войти']");

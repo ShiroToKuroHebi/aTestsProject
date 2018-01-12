@@ -57,24 +57,4 @@ class NewRPForm_MT extends NewRPForm{
 		
 		while (fPayAcc.getAttribute("value").isEmpty());
 	}
-	
-	/** Close the form
-	 */
-	void close() {
-		WebElement bClose = form.findElement(buttonCloseForm);
-		wait.until(ExpectedConditions.elementToBeClickable(bClose));
-
-		bClose.click();
-		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("appframe")));
-	}
-	
-	void switchToMainTab() {
-		form.findElement(buttonMainTabForm).click();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(formNewRPMainTab));
-	}
-	
-	void switchToSimpleTab() {
-		form.findElement(buttonSimpleTabForm).click();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(formNewRPSimpleTab));
-	}
 }

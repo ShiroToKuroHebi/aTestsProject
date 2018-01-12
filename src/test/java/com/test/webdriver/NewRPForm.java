@@ -37,6 +37,8 @@ class NewRPForm {
 		form = drvr.findElement(formNewRPRoot);
 	}
 	
+	/** Close the form
+	 */
 	void close() {
 		WebElement bClose = form.findElement(buttonCloseForm);
 		wait.until(ExpectedConditions.elementToBeClickable(bClose));
