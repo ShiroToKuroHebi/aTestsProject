@@ -3,8 +3,13 @@ package com.test.webdriver;
 /** Just general stuff
  */
 public interface Data {
+	// -==| Stand URL |==-
+	String standURL = "http://stand.vtb.jtcc.ru:16006/";
 	
-    // -==| Bank Data |==-
+	// -==| General locators |==-
+	String tooltipErrorXPath = "//div[@class=\"field__tooltip field__tooltip_error\"]";
+
+	// -==| Bank Data |==-
     // -|БАЙКОНУРСКИЙ ФИЛИАЛ АО "ФОНДСЕРВИСБАНК"|-
     dictRowBIC FONDSERVICEBANK = new dictRowBIC(
 		    "040037470",

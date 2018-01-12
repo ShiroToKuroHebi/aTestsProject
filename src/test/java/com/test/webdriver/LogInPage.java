@@ -5,15 +5,18 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 class LogInPage {
+	private WebDriver drvr;
 	
-	WebDriver drvr;
+	// Locators
+	private final static By fieldUsername = By.xpath("//input[@type='text']");
+	private final static By fieldPassword = By.xpath("//input[@type='password']");
+	private final static By buttonLogin = By.xpath("//button[text()='Войти']");
+
+	// Page-specific data
+	private final static String CLIENT_LOGIN = "1111111111";
+	private final static String CLIENT_PSWRD = "1111111111";
+
 	
-	private By fieldUsername = By.xpath("//input[@type='text']");
-	private By fieldPassword = By.xpath("//input[@type='password']");
-	private By buttonLogin = By.xpath("//button[text()='Войти']");
-	
-	String CLIENT_LOGIN = "1111111111";
-	String CLIENT_PSWRD = "1111111111";
 	
 	/** Авторизоваться в системе с именем пользователя CLIENT_LOGIN и паролем CLIENT_PSWRD
 	 */
@@ -25,13 +28,13 @@ class LogInPage {
 	
 	/** Получить драйвер
 	 */
-	public LogInPage(WebDriver driver) {
+	LogInPage(WebDriver driver) {
 		drvr = driver;
 	}
 	
 	/** Заполнить поле имени пользователя строкой CLIENT_LOGIN
 	 */
-	public void typeUsername() {
+	void typeUsername() {
 		WebElement fLogin = this.drvr.findElement(fieldUsername);
 		
 		do {
@@ -42,7 +45,7 @@ class LogInPage {
 	
 	/** Заполнить поле пароля пользователя строкой CLIENT_PSWRD
 	 */
-	public void typePassword() {
+	void typePassword() {
 		WebElement fPassword = this.drvr.findElement(fieldPassword);
 		
 		do {
@@ -55,7 +58,7 @@ class LogInPage {
 	 *  JUST... Log in!
 	 *  // push the button
 	 */
-	public void clickLoginButton() {
+	void clickLoginButton() {
 		drvr.findElement(buttonLogin).click();
 	}
 }
