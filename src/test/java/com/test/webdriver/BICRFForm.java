@@ -5,8 +5,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-/** That would be 'BIC RF Form'
- *  Actually, this one could be not a form but only an overlap.
+/** DICTIONARY!!!
+ *  This is 'BIC RF Form'
+ *  Actually, this one is not a 'form' but an 'overlap'.
  */
 class BICRFForm {
 	private WebDriverWait wait;

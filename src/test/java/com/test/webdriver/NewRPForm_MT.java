@@ -17,9 +17,11 @@ class NewRPForm_MT extends NewRPForm{
 	
 	// Page-specific locators
 	private final static By fieldPayerAccount_MT = By.xpath(".//div[@title=\"Расчетный счет плательщика\"]/div[2]/div[1]/input");
-	private final static By buttonReceiverBIC_MT = By.xpath(".//button[text()=\"БИК\"]");
+	private final static By buttonReceiverBICDict_MT = By.xpath(".//button[text()=\"БИК\"]");
 	private final static By fieldReceiverBIC_MT = By.xpath(".//div[@title='БИК']/div[2]/div[1]/input");
 	private final static By fieldReceiverBankName_MT = By.xpath(".//textarea[@disabled]"); // may lead to an error?
+	private final static By buttonShowHideMessageForBankBlock_MT = By.xpath(".//div[text()=\"Сообщение для банка\"]");
+	private final static By buttonMessageForBankDict_MT = By.xpath(".//div[text()=\"Сообщение для банка\"]");
 	
 	// Elements
 	WebElement form_MT;
@@ -27,6 +29,8 @@ class NewRPForm_MT extends NewRPForm{
 	WebElement bRecBIC_MT;
 	WebElement fRecBIC_MT;
 	WebElement fRecBankName_MT;
+	WebElement bShowHideMsg4B_MT;
+	WebElement bMsg4B_MT;
 	
 	
 
@@ -46,9 +50,11 @@ class NewRPForm_MT extends NewRPForm{
 		bCreateRP = form.findElement(buttonCreateRP);
 
 		form_MT = form.findElement(formNewRPMainTab);
-		bRecBIC_MT = form.findElement(buttonReceiverBIC_MT);
+		bRecBIC_MT = form.findElement(buttonReceiverBICDict_MT);
 		fRecBIC_MT = form.findElement(fieldReceiverBIC_MT);
 		fRecBankName_MT = form.findElement(fieldReceiverBankName_MT);
+		
+		bShowHideMsg4B_MT = form_MT.findElement(buttonShowHideMessageForBankBlock_MT);
 
 		waitForDataLoadOnForm();
 	}
@@ -59,5 +65,13 @@ class NewRPForm_MT extends NewRPForm{
 		WebElement fPayAcc = form.findElement(fieldPayerAccount_MT);
 		
 		while (fPayAcc.getAttribute("value").isEmpty());
+	}
+	
+	/** Show ot Hide 'Message for bank' data-block
+	 *  By default - always hidden
+	 */
+	void showHideMsg4BankBlock() {
+		bShowHideMsg4B_MT.click();
+		wait.until(ExpectedConditions.visibilityOf((bMsg4B_MT = form_MT.findElement(buttonMessageForBankDict_MT))));
 	}
 }

@@ -54,6 +54,8 @@ class NewRPForm_ST extends NewRPForm {
 		while (lPayAccRest.getText().isEmpty());
 	}
 	
+	/** Find 'button' for showing/hiding receiver data block
+	 */
 	void findButtonShowHideRecData () {
 		List<WebElement> buttonsOnForm_ST = form_ST.findElements(textButtonsInReceiverBlock_ST);
 
@@ -66,9 +68,11 @@ class NewRPForm_ST extends NewRPForm {
 		}
 	}
 	
-	void showRecData () {
-		if (bShowHideRecData_ST.getText().equals(showReceiverData)) {
-			bShowHideRecData_ST.click();
+	/** Click the button!
+	 */
+	void showRecDataBlock (WebElement bShowHideRecData) {
+		if (bShowHideRecData.getText().equals(showReceiverData)) {
+			bShowHideRecData.click();
 			wait.until(ExpectedConditions.visibilityOf(fRecBIC_ST = form_ST.findElement(fieldReceiverBIC_ST)));
 		}
 	}

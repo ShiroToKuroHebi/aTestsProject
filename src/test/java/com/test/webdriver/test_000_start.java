@@ -38,8 +38,25 @@ public class test_000_start implements Data{
 	    BICFieldTests.vtbdbotlab48_09(chrome);
     }
     
-    private void testMsg4BankField(MainPage main) {
-    
+    private void testMsg4BankField(NewRPForm_MT newRPForm_MT) {
+	    newRPForm_MT.showHideMsg4BankBlock();
+	    newRPForm_MT.bMsg4B_MT.click();
+	    
+	    Msg4BankFieldTests.vtbdbotlab5357_01(chrome);
+	
+	    Msg4BankFieldTests.vtbdbotlab5357_02(chrome);
+	
+	    Msg4BankFieldTests.vtbdbotlab5357_03(chrome);
+	
+	    Msg4BankFieldTests.vtbdbotlab5357_04(chrome);
+	
+	    Msg4BankFieldTests.vtbdbotlab5357_05(chrome);
+	
+	    Msg4BankFieldTests.vtbdbotlab5357_06(chrome);
+	
+	    Msg4BankFieldTests.vtbdbotlab5357_07(chrome);
+	
+	    Msg4BankFieldTests.vtbdbotlab5357_08(chrome);
     }
 	
 	@Test
@@ -51,10 +68,11 @@ public class test_000_start implements Data{
 		start.clickLoginButton();
 		
 		MainPage main = new MainPage(chrome);
-		
 		testBICField(main);
-  
-        testMsg4BankField(main);
+		
+		main.openFormCreateNewRP();
+		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(chrome);
+        testMsg4BankField(newRPForm_MT);
         
 //      chrome.quit();
     }

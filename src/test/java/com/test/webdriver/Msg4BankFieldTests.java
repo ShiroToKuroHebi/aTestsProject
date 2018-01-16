@@ -10,6 +10,9 @@ class Msg4BankFieldTests {
 	 */
 	static void vtbdbotlab5357_01(WebDriver driver) {
 	
+		Msg4BankForm msg4BankForm = new Msg4BankForm(driver);
+		
+		
 	}
 	
 	/** Заполнить все поля (Код, Тип документа(?..), Сообщение, < 255 символов) корректно, нажать "Сохранить".

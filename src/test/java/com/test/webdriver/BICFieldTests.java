@@ -234,7 +234,7 @@ class BICFieldTests implements Data {
 		
 		NewRPForm_ST newRPForm_ST = new NewRPForm_ST(driver);
 		newRPForm_ST.findButtonShowHideRecData();
-		newRPForm_ST.showRecData();
+		newRPForm_ST.showRecDataBlock(newRPForm_ST.bShowHideRecData_ST);
 		do {
 			newRPForm_ST.fRecBIC_ST.clear();
 		} while (!newRPForm_ST.fRecBIC_ST.getAttribute("value").isEmpty());
@@ -245,7 +245,7 @@ class BICFieldTests implements Data {
 		
 		newRPForm_ST.bCreateRP.click();
 		
-		assertTrue("48/09 FAILED", newRPForm_ST.bShowHideRecData_ST.findElement(By.xpath(".//div")).getText().equals(NewRPForm_ST.invalidReceiverData));
+		assertTrue("48/09 FAILED", newRPForm_ST.bShowHideRecData_ST.findElement(By.xpath("./div")).getText().equals(NewRPForm_ST.invalidReceiverData));
 		
 		newRPForm_ST.close();
 		System.out.println("PASSED");
