@@ -1,5 +1,7 @@
 package com.test.webdriver;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,6 +11,7 @@ import java.util.List;
 import static org.junit.Assert.assertTrue;
 
 class BICFieldTests implements Data {
+	static Logger logger = Logger.getLogger(BICFieldTests.class);
 	
 	// Locators
 	private static By tooltipsErrors = By.xpath(tooltipErrorXPath);
@@ -23,13 +26,14 @@ class BICFieldTests implements Data {
 	 *  Поле пустое
 	 */
 	static void vtbdbotlab48_01 (WebDriver driver) {
-		System.out.print("Test 48/01 ");
+		PropertyConfigurator.configure(log4jConfigFile);
+		logger.info("Test 48/01 ");
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		
 		assertTrue("48/01 FAILED", getValue(newRPForm_MT.fRecBIC_MT).isEmpty());
 		
 		newRPForm_MT.close();
-		System.out.println("PASSED");
+		logger.info("PASSED");
 	}
 	
 	/** Заполнить "вручную" поле "БИК банка получателя"
@@ -37,7 +41,8 @@ class BICFieldTests implements Data {
 	 *  Редактирование поля (вручную) возможно
 	 */
 	static void vtbdbotlab48_02 (WebDriver driver) {
-		System.out.print("Test 48/02 ");
+		PropertyConfigurator.configure(log4jConfigFile);
+		logger.info("Test 48/02 ");
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		
 		// that way it works always - even when not in Debug
@@ -48,7 +53,7 @@ class BICFieldTests implements Data {
 		assertTrue("48/02 FAILED", getValue(newRPForm_MT.fRecBIC_MT).equals(NUMBERS_5x0));
 		
 		newRPForm_MT.close();
-		System.out.println("PASSED");
+		logger.info("PASSED");
 	}
 	
 	/** Заполнить поле "БИК банка получателя" любыми символами, кроме цифр
@@ -57,7 +62,8 @@ class BICFieldTests implements Data {
 	 *  // SHOULD work. Not sure though. Workaround as in vtbdbotlab48_02 won't help
 	 */
 	static void vtbdbotlab48_03 (WebDriver driver) {
-		System.out.print("Test 48/03 ");
+		PropertyConfigurator.configure(log4jConfigFile);
+		logger.info("Test 48/03 ");
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		
 		newRPForm_MT.fRecBIC_MT.clear();
@@ -65,7 +71,7 @@ class BICFieldTests implements Data {
 		assertTrue("48/03 FAILED", getValue(newRPForm_MT.fRecBIC_MT).isEmpty());
 		
 		newRPForm_MT.close();
-		System.out.println("PASSED");
+		logger.info("PASSED");
 	}
 	
 	/** Ввести 9 допустимых символов (только цифры), сохранить документ
@@ -74,8 +80,8 @@ class BICFieldTests implements Data {
 	 *  Контроли на длину поля не сработали
 	 */
 	static void vtbdbotlab48_04 (WebDriver driver) {
-		System.out.print("Test 48/04 ");
-		
+		PropertyConfigurator.configure(log4jConfigFile);
+		logger.info("Test 48/04 ");
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		
 		do {
@@ -100,7 +106,7 @@ class BICFieldTests implements Data {
 		}
 		
 		newRPForm_MT.close();
-		System.out.println("PASSED");
+		logger.info("PASSED");
 	}
 	
 	/** Ввести менее 9 допустимых символов (только цифры), сохранить документ
@@ -108,7 +114,8 @@ class BICFieldTests implements Data {
 	 *  Сработал контроль (см. NewRPForm_MT.BIC_TOO_SHORT)
 	 */
 	static void vtbdbotlab48_05 (WebDriver driver) {
-		System.out.print("Test 48/05 ");
+		PropertyConfigurator.configure(log4jConfigFile);
+		logger.info("Test 48/05 ");
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		
 		do {
@@ -122,7 +129,7 @@ class BICFieldTests implements Data {
 				tooltipErrorXPath)).getText().equals(NewRPForm_MT.BIC_TOO_SHORT));
 		
 		newRPForm_MT.close();
-		System.out.println("PASSED");
+		logger.info("PASSED");
 	}
 	
 	/** Выбрать БИК из справочника
@@ -131,7 +138,8 @@ class BICFieldTests implements Data {
 	 *  + поле БИК не блокируется. Ручной ввод по-прежнему возможен
 	 */
 	static void vtbdbotlab48_06 (WebDriver driver) {
-		System.out.print("Test 48/06 ");
+		PropertyConfigurator.configure(log4jConfigFile);
+		logger.info("Test 48/06 ");
 		
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		
@@ -148,7 +156,7 @@ class BICFieldTests implements Data {
 		assertTrue("48/06+ FAILED", !getValue(newRPForm_MT.fRecBIC_MT).isEmpty());
 		
 		newRPForm_MT.close();
-		System.out.println("PASSED");
+		logger.info("PASSED");
 	}
 	
 	/** Очистить поле БИК, сохранить документ
@@ -159,7 +167,8 @@ class BICFieldTests implements Data {
 	 *  было введено менее 9 символов. Иначе (введён не-/известный БИК) сообщение контроля не возникает!
 	 */
 	static void vtbdbotlab48_07 (WebDriver driver) {
-		System.out.print("Test 48/07 ");
+		PropertyConfigurator.configure(log4jConfigFile);
+		logger.info("Test 48/07 ");
 		
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		
@@ -176,7 +185,7 @@ class BICFieldTests implements Data {
 //				tooltipErrorXPath)).getText().equals(NewRPForm_MT.BIC_MUST_BE_NONEMPTY));
 		
 		newRPForm_MT.close();
-		System.out.println("PASSED (NOT)");
+		logger.info("PASSED (NOT)");
 	}
 	
 	/** OUTDATED?
@@ -187,7 +196,8 @@ class BICFieldTests implements Data {
 	 *  Сообщение контроля несколько отличается (см. комментарий для NewRPForm_MT.BIC_UNKNOWN)
 	 */
 	static void vtbdbotlab48_08 (WebDriver driver) {
-		System.out.print("Test 48/08 ");
+		PropertyConfigurator.configure(log4jConfigFile);
+		logger.info("Test 48/08 ");
 		
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		
@@ -204,7 +214,7 @@ class BICFieldTests implements Data {
 //				tooltipErrorXPath)).getText().equals(NewRPForm_MT.BIC_UNKNOWN));
 		
 		newRPForm_MT.close();
-		System.out.println("PASSED (KINDA)");
+		logger.info("PASSED (KINDA)");
 	}
 	
 	/** Открыть (?)универсальную форму ПП, очистить поле "БИК банка получателя", скрыть блок получателя
@@ -215,7 +225,8 @@ class BICFieldTests implements Data {
 	 *  (OUTDATED: не поверх, а меняется текст самой метки-переключателя)
 	 */
 	static void vtbdbotlab48_09 (WebDriver driver){
-		System.out.print("Test 48/09 ");
+		PropertyConfigurator.configure(log4jConfigFile);
+		logger.info("Test 48/09 ");
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		
 		do {
@@ -238,7 +249,7 @@ class BICFieldTests implements Data {
 		do {
 			newRPForm_ST.fRecBIC_ST.clear();
 		} while (!newRPForm_ST.fRecBIC_ST.getAttribute("value").isEmpty());
-		//assertTrue("cleaned BIC field, but can't hide receiver data block", );
+		//assertTrue("cleaned BIC field, but can't hide receiver data block", ); <- is that even possible?
 		
 		newRPForm_ST.bShowHideRecData_ST.click();
 		newRPForm_ST.form_ST.click();
@@ -248,7 +259,7 @@ class BICFieldTests implements Data {
 		assertTrue("48/09 FAILED", newRPForm_ST.bShowHideRecData_ST.findElement(By.xpath("./div")).getText().equals(NewRPForm_ST.invalidReceiverData));
 		
 		newRPForm_ST.close();
-		System.out.println("PASSED");
+		logger.info("PASSED");
 	}
 	
 }

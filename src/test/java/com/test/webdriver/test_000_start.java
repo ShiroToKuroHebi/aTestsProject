@@ -1,5 +1,7 @@
 package com.test.webdriver;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -8,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 public class test_000_start implements Data{
     private WebDriver chrome = new ChromeDriver();
+    static Logger logger = Logger.getLogger(test_000_start.class);
     
     private void testBICField(MainPage main) {
 	    main.openFormCreateNewRP();
@@ -61,19 +64,23 @@ public class test_000_start implements Data{
 	
 	@Test
     public void makeItHappen() {
+		PropertyConfigurator.configure(log4jConfigFile);
+		logger.info("-==| START |==-");
+		
     	chrome.get(standURL);
 		chrome.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		
+
 		LogInPage start = new LogInPage(chrome);
 		start.clickLoginButton();
-		
+
 		MainPage main = new MainPage(chrome);
 		testBICField(main);
+
+//		main.openFormCreateNewRP();
+//		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(chrome);
+//      testMsg4BankField(newRPForm_MT);
 		
-		main.openFormCreateNewRP();
-		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(chrome);
-        testMsg4BankField(newRPForm_MT);
-        
-//      chrome.quit();
+		logger.info("-==|  END  |==-");
+		chrome.quit();
     }
 }
