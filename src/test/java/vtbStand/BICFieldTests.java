@@ -32,15 +32,14 @@ class BICFieldTests implements BankData {
 	 */
 	@Test
 	static void checkIfEmptyByDefault (WebDriver driver) {
-		logger.info("Test 48/01 ");
+		logger.info("STARTED checkIfEmptyByDefault");
 		
-//		authorize(driver);
 		MainPage main = new MainPage(driver);
 		main.openFormCreateNewRP();
 		
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		
-		assertTrue("48/01 FAILED", newRPForm_MT.fRecBIC_MT.getAttribute("value").isEmpty());
+		assertTrue("FAILED", newRPForm_MT.fRecBIC_MT.getAttribute("value").isEmpty());
 		
 		newRPForm_MT.close();
 		logger.info("PASSED");
@@ -53,9 +52,8 @@ class BICFieldTests implements BankData {
 	 */
 	@Test
 	static void checkIfEditable (WebDriver driver) {
-		logger.info("Test 48/02 ");
+		logger.info("STARTED checkIfEditable");
 		
-//		authorize(driver);
 		MainPage main = new MainPage(driver);
 		main.openFormCreateNewRP();
 		
@@ -66,7 +64,7 @@ class BICFieldTests implements BankData {
 			newRPForm_MT.fRecBIC_MT.clear();
 			newRPForm_MT.fRecBIC_MT.sendKeys(NUMBERS_5x0);
 		} while (!newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(NUMBERS_5x0));
-		assertTrue("48/02 FAILED", newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(NUMBERS_5x0));
+		assertTrue("FAILED", newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(NUMBERS_5x0));
 		
 		newRPForm_MT.close();
 		logger.info("PASSED");
@@ -80,9 +78,8 @@ class BICFieldTests implements BankData {
 	 */
 	@Test
 	static void checkIfOnlyDigitsAllowed (WebDriver driver) {
-		logger.info("Test 48/03 ");
+		logger.info("STARTED checkIfOnlyDigitsAllowed");
 		
-//		authorize(driver);
 		MainPage main = new MainPage(driver);
 		main.openFormCreateNewRP();
 		
@@ -90,7 +87,7 @@ class BICFieldTests implements BankData {
 		
 		newRPForm_MT.fRecBIC_MT.clear();
 		newRPForm_MT.fRecBIC_MT.sendKeys(NO_DIGITS_STRING);
-		assertTrue("48/03 FAILED", newRPForm_MT.fRecBIC_MT.getAttribute("value").isEmpty());
+		assertTrue("FAILED", newRPForm_MT.fRecBIC_MT.getAttribute("value").isEmpty());
 		
 		newRPForm_MT.close();
 		logger.info("PASSED");
@@ -104,9 +101,8 @@ class BICFieldTests implements BankData {
 	 */
 	@Test
 	static void checkIfLengthControlAllows9Digits (WebDriver driver) {
-		logger.info("Test 48/04 ");
+		logger.info("STARTED checkIfLengthControlAllows9Digits");
 		
-//		authorize(driver);
 		MainPage main = new MainPage(driver);
 		main.openFormCreateNewRP();
 		
@@ -130,7 +126,7 @@ class BICFieldTests implements BankData {
 		} while (errorTooltips.size() == 0);
 		
 		for (WebElement errorMsg : errorTooltips) {
-			assertTrue("48/04 FAILED", !(errorMsg.getText().equals(NewRPForm_MT.BIC_TOO_SHORT)));
+			assertTrue("FAILED", !(errorMsg.getText().equals(NewRPForm_MT.BIC_TOO_SHORT)));
 		}
 		
 		newRPForm_MT.close();
@@ -146,9 +142,8 @@ class BICFieldTests implements BankData {
 	 */
 	@Test
 	static void checkIfLessThan9DigitsIsNotAllowed (WebDriver driver) {
-		logger.info("Test 48/05 ");
+		logger.info("STARTED checkIfLessThan9DigitsIsNotAllowed");
 		
-//		authorize(driver);
 		MainPage main = new MainPage(driver);
 		main.openFormCreateNewRP();
 		
@@ -161,7 +156,7 @@ class BICFieldTests implements BankData {
 		
 		newRPForm_MT.bCreateRP.click();
 		// comparing exact error tooltip text
-		assertTrue("48/05 FAILED",	newRPForm_MT.form.findElement(By.xpath("//div[@title=\"БИК\"]" +
+		assertTrue("FAILED", newRPForm_MT.form.findElement(By.xpath("//div[@title=\"БИК\"]" +
 				Page.tooltipErrorXPath)).getText().equals(NewRPForm_MT.BIC_TOO_SHORT));
 		
 		newRPForm_MT.close();
@@ -176,9 +171,8 @@ class BICFieldTests implements BankData {
 	 */
 	@Test
 	static void checkIfCanBeFilledFromDictionaryAndStillEditable (WebDriver driver) {
-		logger.info("Test 48/06 ");
+		logger.info("STARTED checkIfCanBeFilledFromDictionaryAndStillEditable");
 		
-//		authorize(driver);
 		MainPage main = new MainPage(driver);
 		main.openFormCreateNewRP();
 		
@@ -189,12 +183,12 @@ class BICFieldTests implements BankData {
 		BICRFForm fDictBIC = new BICRFForm(newRPForm_MT);
 		dictRowBIC passedBIC = fDictBIC.chooseFirstInTable();
 		
-		assertTrue("48/06 FAILED", newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(passedBIC.BIC));
+		assertTrue("FAILED", newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(passedBIC.BIC));
 		
 		// Additional part
 		newRPForm_MT.fRecBIC_MT.clear();
 		newRPForm_MT.fRecBIC_MT.sendKeys(NUMBERS_5x0);
-		assertTrue("48/06+ FAILED", !newRPForm_MT.fRecBIC_MT.getAttribute("value").isEmpty());
+		assertTrue("+ FAILED", !newRPForm_MT.fRecBIC_MT.getAttribute("value").isEmpty());
 		
 		newRPForm_MT.close();
 		logger.info("PASSED");
@@ -210,9 +204,8 @@ class BICFieldTests implements BankData {
 	 */
 	@Test
 	static void checkIfMustBeFilledWithValidValue (WebDriver driver) {
-		logger.info("Test 48/07 ");
+		logger.info("STARTED checkIfMustBeFilledWithValidValue");
 		
-//		authorize(driver);
 		MainPage main = new MainPage(driver);
 		main.openFormCreateNewRP();
 		
@@ -244,9 +237,8 @@ class BICFieldTests implements BankData {
 	 */
 	@Test
 	static void checkIfUnknownBICNotAllowed (WebDriver driver) {
-		logger.info("Test 48/08 ");
+		logger.info("STARTED checkIfUnknownBICNotAllowed");
 		
-//		authorize(driver);
 		MainPage main = new MainPage(driver);
 		main.openFormCreateNewRP();
 		
@@ -261,7 +253,7 @@ class BICFieldTests implements BankData {
 		
 		// comparing exact error tooltip text
 		// * this also means that passed unknown 9-digit BIC doesn't trigger length check error (checkIfLengthControlAllows9Digits)
-		assertTrue("48/05 FAILED",	newRPForm_MT.form.findElement(By.xpath("//div[@title=\"БИК\"]" +
+		assertTrue("FAILED", newRPForm_MT.form.findElement(By.xpath("//div[@title=\"БИК\"]" +
 				Page.tooltipErrorXPath)).getText().equals(NewRPForm_MT.BIC_UNKNOWN));
 		
 		newRPForm_MT.close();
@@ -278,9 +270,8 @@ class BICFieldTests implements BankData {
 	 */
 	@Test
 	static void checkIfShowsBankDataBlockOnSimpleTabOnAttemptToCreateRPWhenEmpty (WebDriver driver) {
-		logger.info("Test 48/09 ");
+		logger.info("STARTED checkIfShowsBankDataBlockOnSimpleTabOnAttemptToCreateRPWhenEmpty");
 		
-//		authorize(driver);
 		MainPage main = new MainPage(driver);
 		main.openFormCreateNewRP();
 		
@@ -313,8 +304,7 @@ class BICFieldTests implements BankData {
 		
 		newRPForm_ST.bCreateRP.click();
 		
-		assertTrue("48/09 FAILED",
-				newRPForm_ST.bShowHideRecData_ST.findElement(By.xpath("./div")).getText().equals(
+		assertTrue("FAILED", newRPForm_ST.bShowHideRecData_ST.findElement(By.xpath("./div")).getText().equals(
 						NewRPForm_ST.invalidReceiverData));
 		
 		newRPForm_ST.close();
