@@ -12,18 +12,19 @@ class PropertyValues {
 	private Properties properties = new Properties();
 	private static InputStream inputStream;
 	
+	private final static String PROP_FILE_NAME = "settings.properties";
+	
 	String getStandURL() throws IOException {
 		String result = "";
 		
 		try {
 			
-			String propFileName = "settings.properties";
-			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			inputStream = getClass().getClassLoader().getResourceAsStream(PROP_FILE_NAME);
 			
 			if (inputStream != null) {
 				properties.load(inputStream);
 			} else {
-				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath.");
+				throw new FileNotFoundException("property file '" + PROP_FILE_NAME + "' not found in the classpath.");
 			}
 			
 			result = properties.getProperty("standURL");
