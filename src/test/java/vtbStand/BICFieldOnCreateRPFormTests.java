@@ -10,8 +10,8 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-class BICFieldTests implements BankData {
-	private static Logger logger = Logger.getLogger(BICFieldTests.class);
+class BICFieldOnCreateRPFormTests implements BankData {
+	private static Logger logger = Logger.getLogger(BICFieldOnCreateRPFormTests.class);
 	
 	/** When starting from login page
 	 */
@@ -30,7 +30,6 @@ class BICFieldTests implements BankData {
 	 *  Поле пустое
 	 *  (!) Starting from main page
 	 */
-	@Test
 	static void checkIfEmptyByDefault (WebDriver driver) {
 		logger.info("STARTED checkIfEmptyByDefault");
 		
@@ -50,7 +49,6 @@ class BICFieldTests implements BankData {
 	 *  Редактирование поля (вручную) возможно
 	 *  (!) Starting from main page
 	 */
-	@Test
 	static void checkIfEditable (WebDriver driver) {
 		logger.info("STARTED checkIfEditable");
 		
@@ -76,7 +74,6 @@ class BICFieldTests implements BankData {
 	 *  // SHOULD work. Not sure though. Workaround as in "checkIfEditable(...)" won't help
 	 *  (!) Starting from main page
 	 */
-	@Test
 	static void checkIfOnlyDigitsAllowed (WebDriver driver) {
 		logger.info("STARTED checkIfOnlyDigitsAllowed");
 		
@@ -99,7 +96,6 @@ class BICFieldTests implements BankData {
 	 *  Контроли на длину поля не сработали
 	 *  (!) Starting from main page
 	 */
-	@Test
 	static void checkIfLengthControlAllows9Digits (WebDriver driver) {
 		logger.info("STARTED checkIfLengthControlAllows9Digits");
 		
@@ -140,7 +136,6 @@ class BICFieldTests implements BankData {
 	 *  использует другое сообщение об ошибке
 	 *  (!) Starting from main page
 	 */
-	@Test
 	static void checkIfLessThan9DigitsIsNotAllowed (WebDriver driver) {
 		logger.info("STARTED checkIfLessThan9DigitsIsNotAllowed");
 		
@@ -169,7 +164,6 @@ class BICFieldTests implements BankData {
 	 *  + поле БИК не блокируется. Ручной ввод по-прежнему возможен
 	 *  (!) Starting from main page
 	 */
-	@Test
 	static void checkIfCanBeFilledFromDictionaryAndStillEditable (WebDriver driver) {
 		logger.info("STARTED checkIfCanBeFilledFromDictionaryAndStillEditable");
 		
@@ -202,7 +196,6 @@ class BICFieldTests implements BankData {
 	 *  было введено менее 9 символов. Иначе (введён не-/известный БИК) сообщение контроля не возникает!
 	 *  (!) Starting from main page
 	 */
-	@Test
 	static void checkIfMustBeFilledWithValidValue (WebDriver driver) {
 		logger.info("STARTED checkIfMustBeFilledWithValidValue");
 		
@@ -235,7 +228,6 @@ class BICFieldTests implements BankData {
 	 *  Сообщение контроля несколько отличается (см. комментарий для NewRPForm_MT.BIC_UNKNOWN)
 	 *  (!) Starting from main page
 	 */
-	@Test
 	static void checkIfUnknownBICNotAllowed (WebDriver driver) {
 		logger.info("STARTED checkIfUnknownBICNotAllowed");
 		
@@ -268,7 +260,6 @@ class BICFieldTests implements BankData {
 	 *  (OUTDATED: не поверх, а меняется текст самой метки-переключателя)
 	 *  (!) Starting from main page
 	 */
-	@Test
 	static void checkIfShowsBankDataBlockOnSimpleTabOnAttemptToCreateRPWhenEmpty (WebDriver driver) {
 		logger.info("STARTED checkIfShowsBankDataBlockOnSimpleTabOnAttemptToCreateRPWhenEmpty");
 		

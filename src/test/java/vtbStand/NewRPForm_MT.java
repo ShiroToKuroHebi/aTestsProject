@@ -29,7 +29,7 @@ class NewRPForm_MT extends NewRPForm{
 	WebElement bRecBIC_MT;
 	WebElement fRecBIC_MT;
 	WebElement fRecBankName_MT;
-	private WebElement bShowHideMsg4B_MT;
+	WebElement bShowHideMsg4B_MT;
 	WebElement bMsg4B_MT;
 	
 	

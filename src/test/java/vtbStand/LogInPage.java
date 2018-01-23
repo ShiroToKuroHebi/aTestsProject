@@ -13,11 +13,11 @@ class LogInPage extends Page {
 	private final static By buttonLogin = By.xpath("//button[text()='Войти']");
 	
 	/** Получить драйвер
-	 *  + create DriverWait. It WILL be for all
+	 *  + create DriverWait
 	 */
 	LogInPage (WebDriver driver) {
 		this.drvr = driver;
-		wait = new WebDriverWait(driver, 10);
+		this.wait = new WebDriverWait(driver, 10);
 	}
 	
 	/** Заполнить поле имени пользователя строкой login
@@ -45,6 +45,6 @@ class LogInPage extends Page {
 	/** Push the button
 	 */
 	void clickLoginButton() {
-		drvr.findElement(buttonLogin).click();
+		this.drvr.findElement(buttonLogin).click();
 	}
 }
