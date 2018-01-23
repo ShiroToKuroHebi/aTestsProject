@@ -1,4 +1,4 @@
-package com.test.webdriver;
+package vtbStand;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

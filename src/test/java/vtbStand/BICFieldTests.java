@@ -1,7 +1,6 @@
-package com.test.webdriver;
+package vtbStand;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,8 +10,8 @@ import java.util.List;
 import static org.junit.Assert.assertTrue;
 
 class BICFieldTests implements Data {
-	static Logger logger = Logger.getLogger(BICFieldTests.class);
-	
+	private static Logger logger = Logger.getLogger(BICFieldTests.class);
+
 	// Locators
 	private static By tooltipsErrors = By.xpath(tooltipErrorXPath);
 	
@@ -26,7 +25,6 @@ class BICFieldTests implements Data {
 	 *  Поле пустое
 	 */
 	static void vtbdbotlab48_01 (WebDriver driver) {
-		PropertyConfigurator.configure(log4jConfigFile);
 		logger.info("Test 48/01 ");
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		
@@ -41,7 +39,6 @@ class BICFieldTests implements Data {
 	 *  Редактирование поля (вручную) возможно
 	 */
 	static void vtbdbotlab48_02 (WebDriver driver) {
-		PropertyConfigurator.configure(log4jConfigFile);
 		logger.info("Test 48/02 ");
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		
@@ -62,7 +59,6 @@ class BICFieldTests implements Data {
 	 *  // SHOULD work. Not sure though. Workaround as in vtbdbotlab48_02 won't help
 	 */
 	static void vtbdbotlab48_03 (WebDriver driver) {
-		PropertyConfigurator.configure(log4jConfigFile);
 		logger.info("Test 48/03 ");
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		
@@ -80,7 +76,6 @@ class BICFieldTests implements Data {
 	 *  Контроли на длину поля не сработали
 	 */
 	static void vtbdbotlab48_04 (WebDriver driver) {
-		PropertyConfigurator.configure(log4jConfigFile);
 		logger.info("Test 48/04 ");
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		
@@ -114,7 +109,6 @@ class BICFieldTests implements Data {
 	 *  Сработал контроль (см. NewRPForm_MT.BIC_TOO_SHORT)
 	 */
 	static void vtbdbotlab48_05 (WebDriver driver) {
-		PropertyConfigurator.configure(log4jConfigFile);
 		logger.info("Test 48/05 ");
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		
@@ -138,7 +132,6 @@ class BICFieldTests implements Data {
 	 *  + поле БИК не блокируется. Ручной ввод по-прежнему возможен
 	 */
 	static void vtbdbotlab48_06 (WebDriver driver) {
-		PropertyConfigurator.configure(log4jConfigFile);
 		logger.info("Test 48/06 ");
 		
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
@@ -167,7 +160,6 @@ class BICFieldTests implements Data {
 	 *  было введено менее 9 символов. Иначе (введён не-/известный БИК) сообщение контроля не возникает!
 	 */
 	static void vtbdbotlab48_07 (WebDriver driver) {
-		PropertyConfigurator.configure(log4jConfigFile);
 		logger.info("Test 48/07 ");
 		
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
@@ -196,7 +188,6 @@ class BICFieldTests implements Data {
 	 *  Сообщение контроля несколько отличается (см. комментарий для NewRPForm_MT.BIC_UNKNOWN)
 	 */
 	static void vtbdbotlab48_08 (WebDriver driver) {
-		PropertyConfigurator.configure(log4jConfigFile);
 		logger.info("Test 48/08 ");
 		
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
@@ -224,8 +215,7 @@ class BICFieldTests implements Data {
 	 *  2) Поверх метки-переключателя выведено сообщение "Необходимо заполнить реквизиты"
 	 *  (OUTDATED: не поверх, а меняется текст самой метки-переключателя)
 	 */
-	static void vtbdbotlab48_09 (WebDriver driver){
-		PropertyConfigurator.configure(log4jConfigFile);
+	static void vtbdbotlab48_09 (WebDriver driver) {
 		logger.info("Test 48/09 ");
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		

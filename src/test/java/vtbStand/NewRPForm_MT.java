@@ -1,4 +1,4 @@
-package com.test.webdriver;
+package vtbStand;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -21,7 +21,7 @@ class NewRPForm_MT extends NewRPForm{
 	private final static By fieldReceiverBIC_MT = By.xpath(".//div[@title='БИК']/div[2]/div[1]/input");
 	private final static By fieldReceiverBankName_MT = By.xpath(".//textarea[@disabled]"); // may lead to an error?
 	private final static By buttonShowHideMessageForBankBlock_MT = By.xpath(".//div[text()=\"Сообщение для банка\"]");
-	private final static By buttonMessageForBankDict_MT = By.xpath(".//div[text()=\"Сообщение для банка\"]");
+	private final static By buttonMessageForBankDict_MT = By.xpath(".//button[text()=\"Сообщение для банка\"]");
 	
 	// Elements
 	WebElement form_MT;
@@ -29,7 +29,7 @@ class NewRPForm_MT extends NewRPForm{
 	WebElement bRecBIC_MT;
 	WebElement fRecBIC_MT;
 	WebElement fRecBankName_MT;
-	WebElement bShowHideMsg4B_MT;
+	private WebElement bShowHideMsg4B_MT;
 	WebElement bMsg4B_MT;
 	
 	
@@ -67,11 +67,19 @@ class NewRPForm_MT extends NewRPForm{
 		while (fPayAcc.getAttribute("value").isEmpty());
 	}
 	
-	/** Show ot Hide 'Message for bank' data-block
+	/** Show 'Message for bank' data-block
 	 *  By default - always hidden
 	 */
-	void showHideMsg4BankBlock() {
+	void showMsg4BankBlock () {
 		bShowHideMsg4B_MT.click();
 		wait.until(ExpectedConditions.visibilityOf((bMsg4B_MT = form_MT.findElement(buttonMessageForBankDict_MT))));
+	}
+	
+	/** Hide 'Message for bank' data-block
+	 *  By default - always hidden
+	 */
+	void hideMsg4BankBlock() {
+		bShowHideMsg4B_MT.click();
+		wait.until(ExpectedConditions.invisibilityOf((bMsg4B_MT = form_MT.findElement(buttonMessageForBankDict_MT))));
 	}
 }

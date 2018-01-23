@@ -1,16 +1,17 @@
-package com.test.webdriver;
+package vtbStand;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-public class test_000_start implements Data{
-    private WebDriver chrome = new ChromeDriver();
-    static Logger logger = Logger.getLogger(test_000_start.class);
+public class test_000_start implements Data {
+	private WebDriver chrome = new ChromeDriver();
+    private static Logger logger = Logger.getLogger(test_000_start.class);
+    private PropertyValues settings = new PropertyValues();
     
     private void testBICField(MainPage main) {
 	    main.openFormCreateNewRP();
@@ -42,7 +43,7 @@ public class test_000_start implements Data{
     }
     
     private void testMsg4BankField(NewRPForm_MT newRPForm_MT) {
-	    newRPForm_MT.showHideMsg4BankBlock();
+	    newRPForm_MT.showMsg4BankBlock();
 	    newRPForm_MT.bMsg4B_MT.click();
 	    
 	    Msg4BankFieldTests.vtbdbotlab5357_01(chrome);
@@ -63,11 +64,10 @@ public class test_000_start implements Data{
     }
 	
 	@Test
-    public void makeItHappen() {
-		PropertyConfigurator.configure(log4jConfigFile);
+    public void makeItHappen() throws IOException {
 		logger.info("-==| START |==-");
 		
-    	chrome.get(standURL);
+    	chrome.get(settings.getStandURL());
 		chrome.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
 		LogInPage start = new LogInPage(chrome);

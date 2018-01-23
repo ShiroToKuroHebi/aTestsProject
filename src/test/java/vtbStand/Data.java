@@ -1,17 +1,8 @@
-package com.test.webdriver;
-
-import java.io.File;
+package vtbStand;
 
 /** Just general stuff
  */
 public interface Data {
-	// -==| Stand URL |==-
-	String standURL = "http://stand.vtb.jtcc.ru:16006/";
-	
-	// -==| Logger properties file location |==-
-	String log4jConfigFile = System.getProperty("user.dir") + File.separator
-			+ "log4j.properties";
-	
 	// -==| General locators |==-
 	String tooltipErrorXPath = "//div[@class=\"field__tooltip field__tooltip_error\"]";
 
