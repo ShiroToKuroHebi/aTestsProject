@@ -1,50 +1,44 @@
 package vtbStand;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.FindBy;
 
-class LogInPage extends Page {
+public class LogInPage extends Page {
 	
-	// Page-specific locators
-	private final static By fieldUsername = By.xpath("//input[@type='text']");
-	private final static By fieldPassword = By.xpath("//input[@type='password']");
-	private final static By buttonLogin = By.xpath("//button[text()='Войти']");
+	@FindBy(xpath = "//input[@type='text']")
+			private WebElement fieldUsername;
 	
-	/** Получить драйвер
-	 *  + create DriverWait
-	 */
-	LogInPage (WebDriver driver) {
+	@FindBy(xpath = "//input[@type='password']")
+			private WebElement fieldPassword;
+	
+	@FindBy(xpath = "//button[text()='Войти']")
+			private WebElement buttonLogin;
+	
+
+	
+	public LogInPage (WebDriver driver) {
 		this.drvr = driver;
-		this.wait = new WebDriverWait(driver, 10);
 	}
-	
+
 	/** Заполнить поле имени пользователя строкой login
 	 */
-	void typeUsername(String login) {
-		WebElement fLogin = this.drvr.findElement(fieldUsername);
-		
-		do {
-			fLogin.clear();
-			fLogin.sendKeys(login);
-		} while (!fLogin.getAttribute("value").equals(login));
+	public void typeUsername(String login) {
+		fieldUsername.clear();
+		fieldUsername.sendKeys(login);
 	}
 	
 	/** Заполнить поле пароля пользователя строкой password
 	 */
-	void typePassword(String password) {
-		WebElement fPassword = this.drvr.findElement(fieldPassword);
-		
-		do {
-			fPassword.clear();
-			fPassword.sendKeys(password);
-		} while (!fPassword.getAttribute("value").equals(password));
+	public void typePassword(String password) {
+		fieldPassword.clear();
+		fieldPassword.sendKeys(password);
 	}
 	
-	/** Push the button
+	/** Successful authorization
 	 */
-	void clickLoginButton() {
-		this.drvr.findElement(buttonLogin).click();
+	public MainPage clickLoginButton() {
+		buttonLogin.click();
+		return new MainPage(drvr);
 	}
 }

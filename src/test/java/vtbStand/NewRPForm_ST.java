@@ -71,9 +71,7 @@ class NewRPForm_ST extends NewRPForm {
 	/** Click the button!
 	 */
 	void showRecDataBlock (WebElement bShowHideRecData) {
-		if (bShowHideRecData.getText().equals(showReceiverData)) {
-			bShowHideRecData.click();
-			wait.until(ExpectedConditions.visibilityOf(fRecBIC_ST = form_ST.findElement(fieldReceiverBIC_ST)));
-		}
+		bShowHideRecData.click();
+		wait.until(ExpectedConditions.visibilityOf(fRecBIC_ST = form_ST.findElement(fieldReceiverBIC_ST)));
 	}
 }

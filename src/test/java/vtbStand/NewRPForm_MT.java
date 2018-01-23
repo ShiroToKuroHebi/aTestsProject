@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 /** That would be the
  *  'Create new RP' form, 'mainTab'
  */
-class NewRPForm_MT extends NewRPForm{
+public class NewRPForm_MT extends NewRPForm {
 	// Control messages
 	final static String BIC_UNKNOWN = "Указанный БИК не найден в справочнике российских банков, выполнение проверки ключа счета не доступно";//, выполнение проверки ключа счета не доступно";
 	final static String BIC_TOO_SHORT = "БИК должен состоять из 9 цифр";
@@ -41,7 +41,7 @@ class NewRPForm_MT extends NewRPForm{
 	/** Get driver
 	 *  + initialize form elements
 	 */
-	NewRPForm_MT (WebDriver driver) {
+	public NewRPForm_MT (WebDriver driver) {
 		drvr = driver;
 		wait = new WebDriverWait(drvr, 10);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(formNewRPMainTab));

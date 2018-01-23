@@ -1,30 +1,25 @@
 package vtbStand;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.CacheLookup;
+import org.openqa.selenium.support.FindBy;
 
-class MainPage extends Page{
+public class MainPage extends Page {
 	
-	// Locators
-	private final static By buttonCreateNewRP = By.xpath(".//div[text()='Создать ПП']");
-	
-	WebElement bCreateNewRP;
+	@FindBy(xpath = ".//div[text()='Создать ПП']")
+	@CacheLookup
+			private WebElement buttonCreateNewRP;
 
-	/** Получить драйвер
-	 */
-	MainPage (WebDriver driver) {
+	public MainPage (WebDriver driver) {
 		this.drvr = driver;
-		this.wait = new WebDriverWait(driver, 10);
 	}
 	
 	/** Press the 'Создать ПП' button
 	 */
-	void openFormCreateNewRP() {
-		bCreateNewRP = this.drvr.findElement(buttonCreateNewRP);
-		this.wait.until(ExpectedConditions.elementToBeClickable(bCreateNewRP));
-		bCreateNewRP.click();
+	public NewRPForm openFormCreateNewRP() {
+		buttonCreateNewRP.click();
+		return new NewRPForm(drvr);
 	}
+	
 }

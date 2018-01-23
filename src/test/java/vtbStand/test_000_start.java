@@ -8,7 +8,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-public class test_000_start implements BankData {
+public class test_000_start {
 	private WebDriver chrome = new ChromeDriver();
     private static Logger logger = Logger.getLogger(test_000_start.class);
     private PropertyValues settings = new PropertyValues();
@@ -36,15 +36,15 @@ public class test_000_start implements BankData {
 		
 		BICFieldOnCreateRPFormTests.authorize(chrome);
 		
-		BICFieldOnCreateRPFormTests.checkIfEmptyByDefault(chrome);
-		BICFieldOnCreateRPFormTests.checkIfEditable(chrome);
-		BICFieldOnCreateRPFormTests.checkIfOnlyDigitsAllowed(chrome);
-		BICFieldOnCreateRPFormTests.checkIfLengthControlAllows9Digits(chrome);
-		BICFieldOnCreateRPFormTests.checkIfLessThan9DigitsIsNotAllowed(chrome);
-		BICFieldOnCreateRPFormTests.checkIfCanBeFilledFromDictionaryAndStillEditable(chrome);
-		BICFieldOnCreateRPFormTests.checkIfMustBeFilledWithValidValue(chrome);
-		BICFieldOnCreateRPFormTests.checkIfUnknownBICNotAllowed(chrome);
-		BICFieldOnCreateRPFormTests.checkIfShowsBankDataBlockOnSimpleTabOnAttemptToCreateRPWhenEmpty(chrome);
+		BICFieldOnCreateRPFormTests.checkIfEmptyByDefault();
+		BICFieldOnCreateRPFormTests.checkIfEditable();
+		BICFieldOnCreateRPFormTests.checkIfOnlyDigitsAllowed();
+		BICFieldOnCreateRPFormTests.checkIfLengthControlAllows9Digits();
+		BICFieldOnCreateRPFormTests.checkIfLessThan9DigitsIsNotAllowed();
+		BICFieldOnCreateRPFormTests.checkIfCanBeFilledFromDictionaryAndStillEditable();
+		BICFieldOnCreateRPFormTests.checkIfMustBeFilledWithValidValue();
+		BICFieldOnCreateRPFormTests.checkIfUnknownBICNotAllowed();
+		BICFieldOnCreateRPFormTests.checkIfShowsBankDataBlockOnSimpleTabOnAttemptToCreateRPWhenEmpty();
 		
 //		main.openFormCreateNewRP();
 //		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(chrome);
