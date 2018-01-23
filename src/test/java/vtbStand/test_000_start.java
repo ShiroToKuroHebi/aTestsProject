@@ -8,39 +8,10 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-public class test_000_start implements Data {
+public class test_000_start implements BankData {
 	private WebDriver chrome = new ChromeDriver();
     private static Logger logger = Logger.getLogger(test_000_start.class);
     private PropertyValues settings = new PropertyValues();
-    
-    private void testBICField(MainPage main) {
-	    main.openFormCreateNewRP();
-	    BICFieldTests.vtbdbotlab48_01(chrome);
-	
-	    main.openFormCreateNewRP();
-	    BICFieldTests.vtbdbotlab48_02(chrome);
-	
-	    main.openFormCreateNewRP();
-	    BICFieldTests.vtbdbotlab48_03(chrome);
-	
-	    main.openFormCreateNewRP();
-	    BICFieldTests.vtbdbotlab48_04(chrome);
-	
-	    main.openFormCreateNewRP();
-	    BICFieldTests.vtbdbotlab48_05(chrome);
-	
-	    main.openFormCreateNewRP();
-	    BICFieldTests.vtbdbotlab48_06(chrome);
-	
-	    main.openFormCreateNewRP();
-	    BICFieldTests.vtbdbotlab48_07(chrome);
-	
-	    main.openFormCreateNewRP();
-	    BICFieldTests.vtbdbotlab48_08(chrome);
-	
-	    main.openFormCreateNewRP();
-	    BICFieldTests.vtbdbotlab48_09(chrome);
-    }
     
     private void testMsg4BankField(NewRPForm_MT newRPForm_MT) {
 	    newRPForm_MT.showMsg4BankBlock();
@@ -69,18 +40,24 @@ public class test_000_start implements Data {
 		
     	chrome.get(settings.getStandURL());
 		chrome.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
-		LogInPage start = new LogInPage(chrome);
-		start.clickLoginButton();
-
-		MainPage main = new MainPage(chrome);
-		testBICField(main);
-
+		
+		BICFieldTests.authorize(chrome);
+		BICFieldTests.checkIfEmptyByDefault(chrome);
+		BICFieldTests.checkIfEditable(chrome);
+		BICFieldTests.checkIfOnlyDigitsAllowed(chrome);
+		BICFieldTests.checkIfLengthControlAllows9Digits(chrome);
+		BICFieldTests.checkIfLessThan9DigitsIsNotAllowed(chrome);
+		BICFieldTests.checkIfCanBeFilledFromDictionaryAndStillEditable(chrome);
+		BICFieldTests.checkIfMustBeFilledWithValidValue(chrome);
+		BICFieldTests.checkIfUnknownBICNotAllowed(chrome);
+		BICFieldTests.checkIfShowsBankDataBlockOnSimpleTabOnAttemptToCreateRPWhenEmpty(chrome);
+		
 //		main.openFormCreateNewRP();
 //		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(chrome);
 //      testMsg4BankField(newRPForm_MT);
 		
 		logger.info("-==|  END  |==-");
+		logger.info("    -------");
 		chrome.quit();
     }
 }

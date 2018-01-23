@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  */
 class NewRPForm_MT extends NewRPForm{
 	// Control messages
-	final static String BIC_UNKNOWN = "Указанный БИК не найден в справочнике российских банков";//, выполнение проверки ключа счета не доступно";
+	final static String BIC_UNKNOWN = "Указанный БИК не найден в справочнике российских банков, выполнение проверки ключа счета не доступно";//, выполнение проверки ключа счета не доступно";
 	final static String BIC_TOO_SHORT = "БИК должен состоять из 9 цифр";
 	final static String BIC_MUST_BE_NONEMPTY = "Поле БИК банка получателя обязательно для заполнения";
 	

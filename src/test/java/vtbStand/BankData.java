@@ -1,10 +1,6 @@
 package vtbStand;
 
-/** Just general stuff
- */
-public interface Data {
-	// -==| General locators |==-
-	String tooltipErrorXPath = "//div[@class=\"field__tooltip field__tooltip_error\"]";
+public interface BankData {
 
 	// -==| Bank Data |==-
     // -|БАЙКОНУРСКИЙ ФИЛИАЛ АО "ФОНДСЕРВИСБАНК"|-

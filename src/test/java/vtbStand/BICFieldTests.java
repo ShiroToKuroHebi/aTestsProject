@@ -1,6 +1,7 @@
 package vtbStand;
 
 import org.apache.log4j.Logger;
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,26 +10,37 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-class BICFieldTests implements Data {
+class BICFieldTests implements BankData {
 	private static Logger logger = Logger.getLogger(BICFieldTests.class);
-
-	// Locators
-	private static By tooltipsErrors = By.xpath(tooltipErrorXPath);
 	
-	// 'cuz .getText() doesn't work the way I want :p
-	private static String getValue (WebElement elem) {
-		return elem.getAttribute("value");
+	/** When starting from login page
+	 */
+	static void authorize (WebDriver driver) {
+		LogInPage start = new LogInPage(driver);
+//		start.typeUsername(ClientData.CLIENT_LOGIN);
+//		start.typePassword(ClientData.CLIENT_PSWRD);
+		start.clickLoginButton();
+		
 	}
+
 	
+	// -==| Brace yourselves, TESTs are coming |==-
 	/** Проверить поле "БИК банка получателя"
 	 *  Ожидается:
 	 *  Поле пустое
+	 *  (!) Starting from main page
 	 */
-	static void vtbdbotlab48_01 (WebDriver driver) {
+	@Test
+	static void checkIfEmptyByDefault (WebDriver driver) {
 		logger.info("Test 48/01 ");
+		
+//		authorize(driver);
+		MainPage main = new MainPage(driver);
+		main.openFormCreateNewRP();
+		
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		
-		assertTrue("48/01 FAILED", getValue(newRPForm_MT.fRecBIC_MT).isEmpty());
+		assertTrue("48/01 FAILED", newRPForm_MT.fRecBIC_MT.getAttribute("value").isEmpty());
 		
 		newRPForm_MT.close();
 		logger.info("PASSED");
@@ -37,17 +49,24 @@ class BICFieldTests implements Data {
 	/** Заполнить "вручную" поле "БИК банка получателя"
 	 *  Ожидается:
 	 *  Редактирование поля (вручную) возможно
+	 *  (!) Starting from main page
 	 */
-	static void vtbdbotlab48_02 (WebDriver driver) {
+	@Test
+	static void checkIfEditable (WebDriver driver) {
 		logger.info("Test 48/02 ");
+		
+//		authorize(driver);
+		MainPage main = new MainPage(driver);
+		main.openFormCreateNewRP();
+		
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		
 		// that way it works always - even when not in Debug
 		do {
 			newRPForm_MT.fRecBIC_MT.clear();
 			newRPForm_MT.fRecBIC_MT.sendKeys(NUMBERS_5x0);
-		} while (!getValue(newRPForm_MT.fRecBIC_MT).equals(NUMBERS_5x0));
-		assertTrue("48/02 FAILED", getValue(newRPForm_MT.fRecBIC_MT).equals(NUMBERS_5x0));
+		} while (!newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(NUMBERS_5x0));
+		assertTrue("48/02 FAILED", newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(NUMBERS_5x0));
 		
 		newRPForm_MT.close();
 		logger.info("PASSED");
@@ -56,15 +75,22 @@ class BICFieldTests implements Data {
 	/** Заполнить поле "БИК банка получателя" любыми символами, кроме цифр
 	 *  Ожидается:
 	 *  Ввод невозможен (= в поле не сохраняются передаваемые символы)
-	 *  // SHOULD work. Not sure though. Workaround as in vtbdbotlab48_02 won't help
+	 *  // SHOULD work. Not sure though. Workaround as in "checkIfEditable(...)" won't help
+	 *  (!) Starting from main page
 	 */
-	static void vtbdbotlab48_03 (WebDriver driver) {
+	@Test
+	static void checkIfOnlyDigitsAllowed (WebDriver driver) {
 		logger.info("Test 48/03 ");
+		
+//		authorize(driver);
+		MainPage main = new MainPage(driver);
+		main.openFormCreateNewRP();
+		
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		
 		newRPForm_MT.fRecBIC_MT.clear();
 		newRPForm_MT.fRecBIC_MT.sendKeys(NO_DIGITS_STRING);
-		assertTrue("48/03 FAILED", getValue(newRPForm_MT.fRecBIC_MT).isEmpty());
+		assertTrue("48/03 FAILED", newRPForm_MT.fRecBIC_MT.getAttribute("value").isEmpty());
 		
 		newRPForm_MT.close();
 		logger.info("PASSED");
@@ -74,26 +100,33 @@ class BICFieldTests implements Data {
 	 *  (= отсутствие проверки на длину БИКа, если БИК известен!)
 	 *  Ожидается:
 	 *  Контроли на длину поля не сработали
+	 *  (!) Starting from main page
 	 */
-	static void vtbdbotlab48_04 (WebDriver driver) {
+	@Test
+	static void checkIfLengthControlAllows9Digits (WebDriver driver) {
 		logger.info("Test 48/04 ");
+		
+//		authorize(driver);
+		MainPage main = new MainPage(driver);
+		main.openFormCreateNewRP();
+		
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		
 		do {
 			newRPForm_MT.fRecBIC_MT.clear();
 			newRPForm_MT.fRecBIC_MT.sendKeys(FONDSERVICEBANK.BIC);
-		} while (!getValue(newRPForm_MT.fRecBIC_MT).equals(FONDSERVICEBANK.BIC));
+		} while (!newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(FONDSERVICEBANK.BIC));
 		
 		newRPForm_MT.form.click();
 		
 		// wait until data is loaded; T3H 5L0000000Wa M461Cey...
-		while (!getValue(newRPForm_MT.fRecBankName_MT).equals(
+		while (!newRPForm_MT.fRecBankName_MT.getAttribute("value").equals(
 				(FONDSERVICEBANK.NAME) + " Г " + FONDSERVICEBANK.TOWN));
 		
 		newRPForm_MT.bCreateRP.click();
 		List<WebElement> errorTooltips;
 		do {
-			errorTooltips = newRPForm_MT.form.findElements(tooltipsErrors);
+			errorTooltips = newRPForm_MT.form.findElements(Page.tooltipsErrors);
 		} while (errorTooltips.size() == 0);
 		
 		for (WebElement errorMsg : errorTooltips) {
@@ -107,20 +140,29 @@ class BICFieldTests implements Data {
 	/** Ввести менее 9 допустимых символов (только цифры), сохранить документ
 	 *  Ожидается:
 	 *  Сработал контроль (см. NewRPForm_MT.BIC_TOO_SHORT)
+	 *  (!) Ноль символов - тоже меньше 9, но проверяется другим тестом и
+	 *  использует другое сообщение об ошибке
+	 *  (!) Starting from main page
 	 */
-	static void vtbdbotlab48_05 (WebDriver driver) {
+	@Test
+	static void checkIfLessThan9DigitsIsNotAllowed (WebDriver driver) {
 		logger.info("Test 48/05 ");
+		
+//		authorize(driver);
+		MainPage main = new MainPage(driver);
+		main.openFormCreateNewRP();
+		
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		
 		do {
 			newRPForm_MT.fRecBIC_MT.clear();
 			newRPForm_MT.fRecBIC_MT.sendKeys(NUMBERS_5x0);
-		} while (!getValue(newRPForm_MT.fRecBIC_MT).equals(NUMBERS_5x0));
+		} while (!newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(NUMBERS_5x0));
 		
 		newRPForm_MT.bCreateRP.click();
 		// comparing exact error tooltip text
 		assertTrue("48/05 FAILED",	newRPForm_MT.form.findElement(By.xpath("//div[@title=\"БИК\"]" +
-				tooltipErrorXPath)).getText().equals(NewRPForm_MT.BIC_TOO_SHORT));
+				Page.tooltipErrorXPath)).getText().equals(NewRPForm_MT.BIC_TOO_SHORT));
 		
 		newRPForm_MT.close();
 		logger.info("PASSED");
@@ -130,9 +172,15 @@ class BICFieldTests implements Data {
 	 *  Ожидается:
 	 *  Поле БИК заполнено выбранным (первым из списка) значением
 	 *  + поле БИК не блокируется. Ручной ввод по-прежнему возможен
+	 *  (!) Starting from main page
 	 */
-	static void vtbdbotlab48_06 (WebDriver driver) {
+	@Test
+	static void checkIfCanBeFilledFromDictionaryAndStillEditable (WebDriver driver) {
 		logger.info("Test 48/06 ");
+		
+//		authorize(driver);
+		MainPage main = new MainPage(driver);
+		main.openFormCreateNewRP();
 		
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		
@@ -141,12 +189,12 @@ class BICFieldTests implements Data {
 		BICRFForm fDictBIC = new BICRFForm(newRPForm_MT);
 		dictRowBIC passedBIC = fDictBIC.chooseFirstInTable();
 		
-		assertTrue("48/06 FAILED", getValue(newRPForm_MT.fRecBIC_MT).equals(passedBIC.BIC));
+		assertTrue("48/06 FAILED", newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(passedBIC.BIC));
 		
 		// Additional part
 		newRPForm_MT.fRecBIC_MT.clear();
 		newRPForm_MT.fRecBIC_MT.sendKeys(NUMBERS_5x0);
-		assertTrue("48/06+ FAILED", !getValue(newRPForm_MT.fRecBIC_MT).isEmpty());
+		assertTrue("48/06+ FAILED", !newRPForm_MT.fRecBIC_MT.getAttribute("value").isEmpty());
 		
 		newRPForm_MT.close();
 		logger.info("PASSED");
@@ -158,23 +206,29 @@ class BICFieldTests implements Data {
 	 *  Фактически:
 	 *  Необходимое сообщение возникает только если кнопка сохранить была нажата сразу после открытия формы или
 	 *  было введено менее 9 символов. Иначе (введён не-/известный БИК) сообщение контроля не возникает!
+	 *  (!) Starting from main page
 	 */
-	static void vtbdbotlab48_07 (WebDriver driver) {
+	@Test
+	static void checkIfMustBeFilledWithValidValue (WebDriver driver) {
 		logger.info("Test 48/07 ");
+		
+//		authorize(driver);
+		MainPage main = new MainPage(driver);
+		main.openFormCreateNewRP();
 		
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		
 		do {
 			newRPForm_MT.fRecBIC_MT.clear();
 			newRPForm_MT.fRecBIC_MT.sendKeys(NUMBERS_9x0);
-		} while (!getValue(newRPForm_MT.fRecBIC_MT).equals(NUMBERS_9x0));
+		} while (!newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(NUMBERS_9x0));
 		
 		newRPForm_MT.fRecBIC_MT.clear();
 		newRPForm_MT.bCreateRP.click();
 		
 		// comparing exact error tooltip text
 //		assertTrue("48/05 FAILED",	newRPForm_MT.form.findElement(By.xpath("//div[@title=\"БИК\"]" +
-//				tooltipErrorXPath)).getText().equals(NewRPForm_MT.BIC_MUST_BE_NONEMPTY));
+//				Page.tooltipErrorXPath)).getText().equals(NewRPForm_MT.BIC_MUST_BE_NONEMPTY));
 		
 		newRPForm_MT.close();
 		logger.info("PASSED (NOT)");
@@ -186,23 +240,29 @@ class BICFieldTests implements Data {
 	 *  Сработал контроль (см. NewRPForm_MT.BIC_UNKNOWN)
 	 *  Фактически:
 	 *  Сообщение контроля несколько отличается (см. комментарий для NewRPForm_MT.BIC_UNKNOWN)
+	 *  (!) Starting from main page
 	 */
-	static void vtbdbotlab48_08 (WebDriver driver) {
+	@Test
+	static void checkIfUnknownBICNotAllowed (WebDriver driver) {
 		logger.info("Test 48/08 ");
+		
+//		authorize(driver);
+		MainPage main = new MainPage(driver);
+		main.openFormCreateNewRP();
 		
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		
 		do {
 			newRPForm_MT.fRecBIC_MT.clear();
 			newRPForm_MT.fRecBIC_MT.sendKeys(NUMBERS_9x0);
-		} while (!getValue(newRPForm_MT.fRecBIC_MT).equals(NUMBERS_9x0));
+		} while (!newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(NUMBERS_9x0));
 		
 		newRPForm_MT.bCreateRP.click();
 		
 		// comparing exact error tooltip text
-		// * this also means that passed unknown 9-digit BIC doesn't trigger length check error (vtbdbotlab48_04)
-//		assertTrue("48/05 FAILED",	newRPForm_MT.form.findElement(By.xpath("//div[@title=\"БИК\"]" +
-//				tooltipErrorXPath)).getText().equals(NewRPForm_MT.BIC_UNKNOWN));
+		// * this also means that passed unknown 9-digit BIC doesn't trigger length check error (checkIfLengthControlAllows9Digits)
+		assertTrue("48/05 FAILED",	newRPForm_MT.form.findElement(By.xpath("//div[@title=\"БИК\"]" +
+				Page.tooltipErrorXPath)).getText().equals(NewRPForm_MT.BIC_UNKNOWN));
 		
 		newRPForm_MT.close();
 		logger.info("PASSED (KINDA)");
@@ -214,18 +274,25 @@ class BICFieldTests implements Data {
 	 *  1) Блок получателя раскрыт
 	 *  2) Поверх метки-переключателя выведено сообщение "Необходимо заполнить реквизиты"
 	 *  (OUTDATED: не поверх, а меняется текст самой метки-переключателя)
+	 *  (!) Starting from main page
 	 */
-	static void vtbdbotlab48_09 (WebDriver driver) {
+	@Test
+	static void checkIfShowsBankDataBlockOnSimpleTabOnAttemptToCreateRPWhenEmpty (WebDriver driver) {
 		logger.info("Test 48/09 ");
+		
+//		authorize(driver);
+		MainPage main = new MainPage(driver);
+		main.openFormCreateNewRP();
+		
 		NewRPForm_MT newRPForm_MT = new NewRPForm_MT(driver);
 		
 		do {
 			newRPForm_MT.fRecBIC_MT.clear();
 			newRPForm_MT.fRecBIC_MT.sendKeys(FONDSERVICEBANK.BIC);
-		} while (!getValue(newRPForm_MT.fRecBIC_MT).equals(FONDSERVICEBANK.BIC));
+		} while (!newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(FONDSERVICEBANK.BIC));
 		
 		newRPForm_MT.form.click();
-		while (!getValue(newRPForm_MT.fRecBankName_MT).equals(
+		while (!newRPForm_MT.fRecBankName_MT.getAttribute("value").equals(
 				(FONDSERVICEBANK.NAME) + " Г " + FONDSERVICEBANK.TOWN));
 		
 		// switching to 'universal' form type
@@ -246,7 +313,9 @@ class BICFieldTests implements Data {
 		
 		newRPForm_ST.bCreateRP.click();
 		
-		assertTrue("48/09 FAILED", newRPForm_ST.bShowHideRecData_ST.findElement(By.xpath("./div")).getText().equals(NewRPForm_ST.invalidReceiverData));
+		assertTrue("48/09 FAILED",
+				newRPForm_ST.bShowHideRecData_ST.findElement(By.xpath("./div")).getText().equals(
+						NewRPForm_ST.invalidReceiverData));
 		
 		newRPForm_ST.close();
 		logger.info("PASSED");

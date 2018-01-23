@@ -6,9 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-class NewRPForm {
-	WebDriver drvr;
-	WebDriverWait wait;
+class NewRPForm extends Page{
 	
 	// Page-specific locators
 	final static By formNewRPRoot = By.xpath("//form");

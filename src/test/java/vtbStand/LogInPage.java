@@ -3,60 +3,46 @@ package vtbStand;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-class LogInPage {
-	private WebDriver drvr;
+class LogInPage extends Page {
 	
 	// Page-specific locators
 	private final static By fieldUsername = By.xpath("//input[@type='text']");
 	private final static By fieldPassword = By.xpath("//input[@type='password']");
 	private final static By buttonLogin = By.xpath("//button[text()='Войти']");
-
-	// Page-specific data
-	private final static String CLIENT_LOGIN = "1111111111";
-	private final static String CLIENT_PSWRD = "1111111111";
-
-	
-	
-	/** Авторизоваться в системе с именем пользователя CLIENT_LOGIN и паролем CLIENT_PSWRD
-	 */
-	void logIn() {
-		typeUsername();
-		typePassword();
-		clickLoginButton();
-	}
 	
 	/** Получить драйвер
+	 *  + create DriverWait. It WILL be for all
 	 */
-	LogInPage(WebDriver driver) {
-		drvr = driver;
+	LogInPage (WebDriver driver) {
+		this.drvr = driver;
+		wait = new WebDriverWait(driver, 10);
 	}
 	
-	/** Заполнить поле имени пользователя строкой CLIENT_LOGIN
+	/** Заполнить поле имени пользователя строкой login
 	 */
-	void typeUsername() {
+	void typeUsername(String login) {
 		WebElement fLogin = this.drvr.findElement(fieldUsername);
 		
 		do {
 			fLogin.clear();
-			fLogin.sendKeys(CLIENT_LOGIN);
-		} while (!fLogin.getAttribute("value").equals(CLIENT_LOGIN));
+			fLogin.sendKeys(login);
+		} while (!fLogin.getAttribute("value").equals(login));
 	}
 	
-	/** Заполнить поле пароля пользователя строкой CLIENT_PSWRD
+	/** Заполнить поле пароля пользователя строкой password
 	 */
-	void typePassword() {
+	void typePassword(String password) {
 		WebElement fPassword = this.drvr.findElement(fieldPassword);
 		
 		do {
 			fPassword.clear();
-			fPassword.sendKeys(CLIENT_PSWRD);
-		} while (!fPassword.getAttribute("value").equals(CLIENT_PSWRD));
+			fPassword.sendKeys(password);
+		} while (!fPassword.getAttribute("value").equals(password));
 	}
 	
-	/** DO IT!
-	 *  JUST... Log in!
-	 *  // push the button
+	/** Push the button
 	 */
 	void clickLoginButton() {
 		drvr.findElement(buttonLogin).click();
