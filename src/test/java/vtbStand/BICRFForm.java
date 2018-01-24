@@ -15,8 +15,15 @@ class BICRFForm {
 	private final static String fHeader = "Российские банки (БИК РФ)";
 	
 	//By formBIC = By.xpath("//div[text()=\""+fHeader+"\"]/ancestor::?..");
+
+	//Поменяй локатор
 	private final static By formBIC = By.xpath("//div[text()=\"" + fHeader + "\"]/../../.."); //3rd parent from header - the form we need
+
+	//Лучше найти все строки таблицы, потом уже выбирать перую из List
+
 	private final static By elementFirstRowInTable = By.xpath(".//div[@class=\"table__body\"]/div[1]");
+
+	//Это плохой локатор, используй contains в xpath к примеру
 	private final static By buttonApply = By.xpath(".//button[@class=\"Button__base--3ZP3W Button__basePrimary--3ryz2\"]");
 	
 	private WebElement fBIC;
@@ -34,6 +41,7 @@ class BICRFForm {
 	dictRowBIC chooseFirstInTable(){
 		dictRowBIC result;
 		WebElement row = fBIC.findElement(elementFirstRowInTable);
+
 		result = new dictRowBIC(row);
 		
 		row.click();

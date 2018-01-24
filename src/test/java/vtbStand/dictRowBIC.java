@@ -4,7 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
-
+//Название класса в верблюжем формате, не надо начинать классы с маленькой буквы
+//Не понятно для чего  класс этот, чтобы один кас кликнуть по строке?
 class dictRowBIC {
 	final String BIC;
 	final String NAME;

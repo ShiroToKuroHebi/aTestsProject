@@ -23,7 +23,7 @@ public class NewRPForm extends Page{
 			private WebElement buttonSimpleTabForm;
 	
 	
-	
+	//Поменяй локаторы, елси эти элеемнты видны на странице, почему не вынес в поля класса, с FindBy
 	// Page-specific locators
 	final static By formNewRPRoot = By.xpath("//form");
 	final static By formNewRPMainTab = By.xpath("//div[@class=\"PayDocRu__tabContent--muDt2 PayDocRu__mainTab--3jpGE\"]");

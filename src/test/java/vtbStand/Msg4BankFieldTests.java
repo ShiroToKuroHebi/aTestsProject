@@ -3,6 +3,8 @@ package vtbStand;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
+
+//Названия методов должны быть понятными
 class Msg4BankFieldTests {
 	private static Logger logger = Logger.getLogger(Msg4BankFieldTests.class);
 	

@@ -9,7 +9,11 @@ import org.openqa.selenium.support.PageFactory;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
-
+/*
+Инициализацию  элементов страницы через PageFactory лучше сделать в конструкторе абсрактной страницы Page,
+В Page лучше создать также объект драйвера, что он был во всех классах- страницах доступен и не кидать его в параметрах методов разных
+Не совсем понятно зачем жтот класс, Методы для работы с элементами страницы должны быть в класссе самой страницы(формы), потом юзаешь их уже в тестах
+ */
 class BICFieldOnCreateRPFormTests implements BankData {
 	private static Logger logger = Logger.getLogger(BICFieldOnCreateRPFormTests.class);
 	private static MainPage main;
@@ -32,7 +36,7 @@ class BICFieldOnCreateRPFormTests implements BankData {
 	/** Проверить поле "БИК банка получателя"
 	 *  Ожидается:
 	 *  Поле пустое
-	 *  (!) Starting from main page
+	 *  (!) Starting from main page -  это нужно убрать, если ты выделяешь в отдельный тест то надо его описыавть полностью, таких предусловий не должно быть в тестах
 	 */
 	static void checkIfEmptyByDefault () {
 		logger.info("STARTED checkIfEmptyByDefault");
@@ -56,6 +60,8 @@ class BICFieldOnCreateRPFormTests implements BankData {
 		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
 		
 		// that way it works always - even when not in Debug
+
+		//А если условие выхода из цикла никонда не выполнится, он тут так и будет висеть?
 		do {
 			newRPForm_MT.fRecBIC_MT.clear();
 			newRPForm_MT.fRecBIC_MT.sendKeys(NUMBERS_5x0);
@@ -95,7 +101,8 @@ class BICFieldOnCreateRPFormTests implements BankData {
 		logger.info("STARTED checkIfLengthControlAllows9Digits");
 		
 		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
-		
+
+		//Не надо использовать циклы для ожиданий событий со страницей!
 		do {
 			newRPForm_MT.fRecBIC_MT.clear();
 			newRPForm_MT.fRecBIC_MT.sendKeys(FONDSERVICEBANK.BIC);
@@ -104,11 +111,15 @@ class BICFieldOnCreateRPFormTests implements BankData {
 		newRPForm_MT.form.click();
 		
 		// wait until data is loaded; T3H 5L0000000Wa M461Cey...
+
+		//Не надо использовать циклы для ожиданий событий со страницей!
 		while (!newRPForm_MT.fRecBankName_MT.getAttribute("value").equals(
 				(FONDSERVICEBANK.NAME) + " Г " + FONDSERVICEBANK.TOWN));
 		
 		newRPForm_MT.bCreateRP.click();
 		List<WebElement> errorTooltips;
+
+		//Не надо использовать циклы для ожиданий событий со страницей!
 		do {
 			errorTooltips = newRPForm_MT.form.findElements(Page.tooltipsErrors);
 		} while (errorTooltips.size() == 0);
@@ -132,7 +143,7 @@ class BICFieldOnCreateRPFormTests implements BankData {
 		logger.info("STARTED checkIfLessThan9DigitsIsNotAllowed");
 		
 		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
-		
+		//Не надо использовать циклы для ожиданий событий со страницей!
 		do {
 			newRPForm_MT.fRecBIC_MT.clear();
 			newRPForm_MT.fRecBIC_MT.sendKeys(NUMBERS_5x0);
@@ -186,7 +197,7 @@ class BICFieldOnCreateRPFormTests implements BankData {
 		logger.info("STARTED checkIfMustBeFilledWithValidValue");
 		
 		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
-		
+		//Не надо использовать циклы для ожиданий событий со страницей!
 		do {
 			newRPForm_MT.fRecBIC_MT.clear();
 			newRPForm_MT.fRecBIC_MT.sendKeys(NUMBERS_9x0);
@@ -259,6 +270,7 @@ class BICFieldOnCreateRPFormTests implements BankData {
 		newRPForm_ST = newRPForm_MT.switchToSimpleTab();
 		newRPForm_ST.findButtonShowHideRecData();
 		newRPForm_ST.showRecDataBlock(newRPForm_ST.bShowHideRecData_ST);
+		//Не надо использовать циклы для ожиданий событий со страницей!
 		do {
 			newRPForm_ST.fRecBIC_ST.clear();
 		} while (!newRPForm_ST.fRecBIC_ST.getAttribute("value").isEmpty());
