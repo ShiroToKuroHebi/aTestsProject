@@ -1,18 +1,21 @@
-package vtbStand;
+package vtbStand.tests;
 
 import org.apache.log4j.Logger;
+import org.junit.Test;
 import org.openqa.selenium.WebDriver;
+import vtbStand.pages.Msg4BankForm;
 
 
 //Названия методов должны быть понятными
-class Msg4BankFieldTests {
+public class Msg4BankFieldTests {
 	private static Logger logger = Logger.getLogger(Msg4BankFieldTests.class);
 	
 	/** Проверить заполнение полей по умолчанию
 	 *  Ожидается:
 	 *  Код - "D1"; имеет расшифровку (?..). Тип документа "Платежное поручение". Сообщение - не заполнено.
 	 */
-	static void vtbdbotlab5357_01(WebDriver driver) {
+	@Test
+	public static void vtbdbotlab5357_01(WebDriver driver) {
 	
 		Msg4BankForm msg4BankForm = new Msg4BankForm(driver);
 		
@@ -25,7 +28,8 @@ class Msg4BankFieldTests {
 	 *  (+ добавить проверку создания новой записи)
 	 *  (+ добавить удаление записи)
 	 */
-	static void vtbdbotlab5357_02(WebDriver driver) {
+	@Test
+	public static void vtbdbotlab5357_02(WebDriver driver) {
 	
 	}
 	
@@ -35,7 +39,8 @@ class Msg4BankFieldTests {
 	 *  (+ добавить проверку создания новой записи)
 	 *  (+ добавить удаление записи)
 	 */
-	static void vtbdbotlab5357_03(WebDriver driver) {
+	@Test
+	public static void vtbdbotlab5357_03(WebDriver driver) {
 	
 	}
 	
@@ -45,7 +50,8 @@ class Msg4BankFieldTests {
 	 *  (но запись-то сохранится?)
 	 *  (* отбросить сохранение записи)
 	 */
-	static void vtbdbotlab5357_04(WebDriver driver) {
+	@Test
+	public static void vtbdbotlab5357_04(WebDriver driver) {
 	
 	}
 	
@@ -53,7 +59,8 @@ class Msg4BankFieldTests {
 	 *  Ожидается:
 	 *  Изменить значение по умолчанию в пилотной версии невозможно (окай)
 	 */
-	static void vtbdbotlab5357_05(WebDriver driver) {
+	@Test
+	public static void vtbdbotlab5357_05(WebDriver driver) {
 	
 	}
 	
@@ -62,7 +69,8 @@ class Msg4BankFieldTests {
 	 *  Ожидается:
 	 *  Символы ввести нельзя
 	 */
-	static void vtbdbotlab5357_06(WebDriver driver) {
+	@Test
+	public static void vtbdbotlab5357_06(WebDriver driver) {
 	
 	}
 	
@@ -70,7 +78,8 @@ class Msg4BankFieldTests {
 	 *  Ожидается:
 	 *  Заполнить вручную невозможно
 	 */
-	static void vtbdbotlab5357_07(WebDriver driver) {
+	@Test
+	public static void vtbdbotlab5357_07(WebDriver driver) {
 	
 	}
 	
@@ -79,7 +88,8 @@ class Msg4BankFieldTests {
 	 *  Новыя запись НЕ добавлена в Справочник.
 	 *  Ошибка "Поле сообщение обязательно для заполнения"
 	 */
-	static void vtbdbotlab5357_08(WebDriver driver) {
+	@Test
+	public static void vtbdbotlab5357_08(WebDriver driver) {
 	
 	}
 	

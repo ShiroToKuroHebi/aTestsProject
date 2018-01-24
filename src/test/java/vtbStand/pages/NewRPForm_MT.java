@@ -1,19 +1,18 @@
-package vtbStand;
+package vtbStand.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 /** That would be the
  *  'Create new RP' form, 'mainTab'
  */
 public class NewRPForm_MT extends NewRPForm {
 	// Control messages
-	final static String BIC_UNKNOWN = "Указанный БИК не найден в справочнике российских банков, выполнение проверки ключа счета не доступно";//, выполнение проверки ключа счета не доступно";
-	final static String BIC_TOO_SHORT = "БИК должен состоять из 9 цифр";
-	final static String BIC_MUST_BE_NONEMPTY = "Поле БИК банка получателя обязательно для заполнения";
+	public final static String BIC_UNKNOWN = "Указанный БИК не найден в справочнике российских банков, выполнение проверки ключа счета не доступно";//, выполнение проверки ключа счета не доступно";
+	public final static String BIC_TOO_SHORT = "БИК должен состоять из 9 цифр";
+	public final static String BIC_MUST_BE_NONEMPTY = "Поле БИК банка получателя обязательно для заполнения";
 	
 	// Page-specific locators
 	private final static By fieldPayerAccount_MT = By.xpath(".//div[@title=\"Расчетный счет плательщика\"]/div[2]/div[1]/input");
@@ -24,17 +23,17 @@ public class NewRPForm_MT extends NewRPForm {
 	private final static By buttonMessageForBankDict_MT = By.xpath(".//button[text()=\"Сообщение для банка\"]");
 	
 	// Elements
-	WebElement form_MT;
+	public WebElement form_MT;
 	
-	WebElement bRecBIC_MT;
-	WebElement fRecBIC_MT;
-	WebElement fRecBankName_MT;
-	WebElement bShowHideMsg4B_MT;
-	WebElement bMsg4B_MT;
+	public WebElement bRecBIC_MT;
+	public WebElement fRecBIC_MT;
+	public WebElement fRecBankName_MT;
+	public WebElement bShowHideMsg4B_MT;
+	public WebElement bMsg4B_MT;
 	
 	
-
-	NewRPForm_MT () {
+	
+	public NewRPForm_MT () {
 		// stub
 	}
 	
@@ -42,8 +41,6 @@ public class NewRPForm_MT extends NewRPForm {
 	 *  + initialize form elements
 	 */
 	public NewRPForm_MT (WebDriver driver) {
-		drvr = driver;
-		wait = new WebDriverWait(drvr, 10);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(formNewRPMainTab));
 		
 		form = drvr.findElement(formNewRPRoot);
@@ -70,7 +67,7 @@ public class NewRPForm_MT extends NewRPForm {
 	/** Show 'Message for bank' data-block
 	 *  By default - always hidden
 	 */
-	void showMsg4BankBlock () {
+	public void showMsg4BankBlock () {
 		bShowHideMsg4B_MT.click();
 		wait.until(ExpectedConditions.visibilityOf((bMsg4B_MT = form_MT.findElement(buttonMessageForBankDict_MT))));
 	}
@@ -78,7 +75,7 @@ public class NewRPForm_MT extends NewRPForm {
 	/** Hide 'Message for bank' data-block
 	 *  By default - always hidden
 	 */
-	void hideMsg4BankBlock() {
+	public void hideMsg4BankBlock() {
 		bShowHideMsg4B_MT.click();
 		wait.until(ExpectedConditions.invisibilityOf((bMsg4B_MT = form_MT.findElement(buttonMessageForBankDict_MT))));
 	}

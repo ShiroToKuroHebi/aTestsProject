@@ -1,10 +1,12 @@
-package vtbStand;
+package vtbStand.tests;
 
 import org.apache.log4j.Logger;
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
+import vtbStand.*;
+import vtbStand.pages.*;
 
 import java.util.List;
 
@@ -12,23 +14,25 @@ import static org.junit.Assert.assertTrue;
 /*
 Инициализацию  элементов страницы через PageFactory лучше сделать в конструкторе абсрактной страницы Page,
 В Page лучше создать также объект драйвера, что он был во всех классах- страницах доступен и не кидать его в параметрах методов разных
-Не совсем понятно зачем жтот класс, Методы для работы с элементами страницы должны быть в класссе самой страницы(формы), потом юзаешь их уже в тестах
  */
-class BICFieldOnCreateRPFormTests implements BankData {
+public class BICFieldOnCreateRPFormTests {
 	private static Logger logger = Logger.getLogger(BICFieldOnCreateRPFormTests.class);
 	private static MainPage main;
 	private static NewRPForm_MT newRPForm_MT;
 	private static NewRPForm_ST newRPForm_ST;
+	private static Page app;
 	
-	/** When starting from login page
+	/** We start from login page
 	 */
-	static void authorize (WebDriver driver) {
-		LogInPage start = PageFactory.initElements(driver, LogInPage.class);
+	public static void authorize (WebDriver driver) {
+		app = new Page(driver);
+		
+		LogInPage start = Page.logInPage(); //PageFactory.initElements(driver, LogInPage.class);
 //		start.typeUsername(ClientData.CLIENT_LOGIN);
 //		start.typePassword(ClientData.CLIENT_PSWRD);
-		main = start.clickLoginButton();
+		start.clickLoginButton();
 		
-		PageFactory.initElements(driver, main);
+		main = Page.mainPage();
 	}
 
 	
@@ -38,7 +42,8 @@ class BICFieldOnCreateRPFormTests implements BankData {
 	 *  Поле пустое
 	 *  (!) Starting from main page -  это нужно убрать, если ты выделяешь в отдельный тест то надо его описыавть полностью, таких предусловий не должно быть в тестах
 	 */
-	static void checkIfEmptyByDefault () {
+	@Test
+	public static void checkIfEmptyByDefault () {
 		logger.info("STARTED checkIfEmptyByDefault");
 		
 		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
@@ -54,7 +59,8 @@ class BICFieldOnCreateRPFormTests implements BankData {
 	 *  Редактирование поля (вручную) возможно
 	 *  (!) Starting from main page
 	 */
-	static void checkIfEditable () {
+	@Test
+	public static void checkIfEditable () {
 		logger.info("STARTED checkIfEditable");
 		
 		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
@@ -64,9 +70,9 @@ class BICFieldOnCreateRPFormTests implements BankData {
 		//А если условие выхода из цикла никонда не выполнится, он тут так и будет висеть?
 		do {
 			newRPForm_MT.fRecBIC_MT.clear();
-			newRPForm_MT.fRecBIC_MT.sendKeys(NUMBERS_5x0);
-		} while (!newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(NUMBERS_5x0));
-		assertTrue("FAILED", newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(NUMBERS_5x0));
+			newRPForm_MT.fRecBIC_MT.sendKeys(BankData.NUMBERS_5x0);
+		} while (!newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(BankData.NUMBERS_5x0));
+		assertTrue("FAILED", newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(BankData.NUMBERS_5x0));
 		
 		newRPForm_MT.closeForm();
 		logger.info("PASSED");
@@ -78,13 +84,14 @@ class BICFieldOnCreateRPFormTests implements BankData {
 	 *  // SHOULD work. Not sure though. Workaround as in "checkIfEditable(...)" won't help
 	 *  (!) Starting from main page
 	 */
-	static void checkIfOnlyDigitsAllowed () {
+	@Test
+	public static void checkIfOnlyDigitsAllowed () {
 		logger.info("STARTED checkIfOnlyDigitsAllowed");
 		
 		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
 		
 		newRPForm_MT.fRecBIC_MT.clear();
-		newRPForm_MT.fRecBIC_MT.sendKeys(NO_DIGITS_STRING);
+		newRPForm_MT.fRecBIC_MT.sendKeys(BankData.NO_DIGITS_STRING);
 		assertTrue("FAILED", newRPForm_MT.fRecBIC_MT.getAttribute("value").isEmpty());
 		
 		newRPForm_MT.closeForm();
@@ -97,7 +104,8 @@ class BICFieldOnCreateRPFormTests implements BankData {
 	 *  Контроли на длину поля не сработали
 	 *  (!) Starting from main page
 	 */
-	static void checkIfLengthControlAllows9Digits () {
+	@Test
+	public static void checkIfLengthControlAllows9Digits () {
 		logger.info("STARTED checkIfLengthControlAllows9Digits");
 		
 		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
@@ -105,8 +113,8 @@ class BICFieldOnCreateRPFormTests implements BankData {
 		//Не надо использовать циклы для ожиданий событий со страницей!
 		do {
 			newRPForm_MT.fRecBIC_MT.clear();
-			newRPForm_MT.fRecBIC_MT.sendKeys(FONDSERVICEBANK.BIC);
-		} while (!newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(FONDSERVICEBANK.BIC));
+			newRPForm_MT.fRecBIC_MT.sendKeys(BankData.FONDSERVICEBANK.bic());
+		} while (!newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(BankData.FONDSERVICEBANK.bic()));
 		
 		newRPForm_MT.form.click();
 		
@@ -114,7 +122,7 @@ class BICFieldOnCreateRPFormTests implements BankData {
 
 		//Не надо использовать циклы для ожиданий событий со страницей!
 		while (!newRPForm_MT.fRecBankName_MT.getAttribute("value").equals(
-				(FONDSERVICEBANK.NAME) + " Г " + FONDSERVICEBANK.TOWN));
+				(BankData.FONDSERVICEBANK.dep()) + " Г " + BankData.FONDSERVICEBANK.town()));
 		
 		newRPForm_MT.bCreateRP.click();
 		List<WebElement> errorTooltips;
@@ -139,15 +147,16 @@ class BICFieldOnCreateRPFormTests implements BankData {
 	 *  использует другое сообщение об ошибке
 	 *  (!) Starting from main page
 	 */
-	static void checkIfLessThan9DigitsIsNotAllowed () {
+	@Test
+	public static void checkIfLessThan9DigitsIsNotAllowed () {
 		logger.info("STARTED checkIfLessThan9DigitsIsNotAllowed");
 		
 		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
 		//Не надо использовать циклы для ожиданий событий со страницей!
 		do {
 			newRPForm_MT.fRecBIC_MT.clear();
-			newRPForm_MT.fRecBIC_MT.sendKeys(NUMBERS_5x0);
-		} while (!newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(NUMBERS_5x0));
+			newRPForm_MT.fRecBIC_MT.sendKeys(BankData.NUMBERS_5x0);
+		} while (!newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(BankData.NUMBERS_5x0));
 		
 		newRPForm_MT.bCreateRP.click();
 		// comparing exact error tooltip text
@@ -164,21 +173,22 @@ class BICFieldOnCreateRPFormTests implements BankData {
 	 *  + поле БИК не блокируется. Ручной ввод по-прежнему возможен
 	 *  (!) Starting from main page
 	 */
-	static void checkIfCanBeFilledFromDictionaryAndStillEditable () {
+	@Test
+	public static void checkIfCanBeFilledFromDictionaryAndStillEditable () {
 		logger.info("STARTED checkIfCanBeFilledFromDictionaryAndStillEditable");
 		
 		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
 		
 		newRPForm_MT.bRecBIC_MT.click();
 		
-		BICRFForm fDictBIC = new BICRFForm(newRPForm_MT);
-		dictRowBIC passedBIC = fDictBIC.chooseFirstInTable();
+		BICRFForm fDictBIC = new BICRFForm(newRPForm_MT.drvr);
+		DictRowBIC passedBIC = fDictBIC.chooseFirstInTable();
 		
 		assertTrue("FAILED", newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(passedBIC.BIC));
 		
 		// Additional part
 		newRPForm_MT.fRecBIC_MT.clear();
-		newRPForm_MT.fRecBIC_MT.sendKeys(NUMBERS_5x0);
+		newRPForm_MT.fRecBIC_MT.sendKeys(BankData.NUMBERS_5x0);
 		assertTrue("+ FAILED", !newRPForm_MT.fRecBIC_MT.getAttribute("value").isEmpty());
 		
 		newRPForm_MT.closeForm();
@@ -193,15 +203,16 @@ class BICFieldOnCreateRPFormTests implements BankData {
 	 *  было введено менее 9 символов. Иначе (введён не-/известный БИК) сообщение контроля не возникает!
 	 *  (!) Starting from main page
 	 */
-	static void checkIfMustBeFilledWithValidValue () {
+	@Test
+	public static void checkIfMustBeFilledWithValidValue () {
 		logger.info("STARTED checkIfMustBeFilledWithValidValue");
 		
 		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
 		//Не надо использовать циклы для ожиданий событий со страницей!
 		do {
 			newRPForm_MT.fRecBIC_MT.clear();
-			newRPForm_MT.fRecBIC_MT.sendKeys(NUMBERS_9x0);
-		} while (!newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(NUMBERS_9x0));
+			newRPForm_MT.fRecBIC_MT.sendKeys(BankData.NUMBERS_9x0);
+		} while (!newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(BankData.NUMBERS_9x0));
 		
 		newRPForm_MT.fRecBIC_MT.clear();
 		newRPForm_MT.bCreateRP.click();
@@ -222,15 +233,16 @@ class BICFieldOnCreateRPFormTests implements BankData {
 	 *  Сообщение контроля несколько отличается (см. комментарий для NewRPForm_MT.BIC_UNKNOWN)
 	 *  (!) Starting from main page
 	 */
-	static void checkIfUnknownBICNotAllowed () {
+	@Test
+	public static void checkIfUnknownBICNotAllowed () {
 		logger.info("STARTED checkIfUnknownBICNotAllowed");
 		
 		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
 		
 		do {
 			newRPForm_MT.fRecBIC_MT.clear();
-			newRPForm_MT.fRecBIC_MT.sendKeys(NUMBERS_9x0);
-		} while (!newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(NUMBERS_9x0));
+			newRPForm_MT.fRecBIC_MT.sendKeys(BankData.NUMBERS_9x0);
+		} while (!newRPForm_MT.fRecBIC_MT.getAttribute("value").equals(BankData.NUMBERS_9x0));
 		
 		newRPForm_MT.bCreateRP.click();
 		
@@ -251,14 +263,15 @@ class BICFieldOnCreateRPFormTests implements BankData {
 	 *  (OUTDATED: не поверх, а меняется текст самой метки-переключателя)
 	 *  (!) Starting from main page
 	 */
-	static void checkIfShowsBankDataBlockOnSimpleTabOnAttemptToCreateRPWhenEmpty () {
+	@Test
+	public static void checkIfShowsBankDataBlockOnSimpleTabOnAttemptToCreateRPWhenEmpty () {
 		logger.info("STARTED checkIfShowsBankDataBlockOnSimpleTabOnAttemptToCreateRPWhenEmpty");
 		
 		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
 		
 		newRPForm_MT.bRecBIC_MT.click();
 		
-		BICRFForm fDictBIC = new BICRFForm(newRPForm_MT);
+		BICRFForm fDictBIC = new BICRFForm(newRPForm_MT.drvr);
 		fDictBIC.chooseFirstInTable();
 		
 		newRPForm_MT.form.click();

@@ -1,16 +1,16 @@
-package vtbStand;
+package vtbStand.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import vtbStand.DictRowBIC;
 
 /** DICTIONARY!!!
  *  This is 'BIC RF Form'
  *  Actually, this one is not a 'form' but an 'overlap'.
  */
-class BICRFForm {
-	private WebDriverWait wait;
+public class BICRFForm extends Page{
 	
 	private final static String fHeader = "Российские банки (БИК РФ)";
 	
@@ -29,20 +29,18 @@ class BICRFForm {
 	private WebElement fBIC;
 	
 	/** When called from creating new RP form (MT/ST)
-	 * @param newRPForm_MT - the form from where called
 	 */
-	BICRFForm(NewRPForm_MT newRPForm_MT) {
-		fBIC = newRPForm_MT.form.findElement(formBIC);
-		wait = newRPForm_MT.wait;
+	public BICRFForm(WebDriver driver) {
+		fBIC = drvr.findElement(formBIC);
 	}
 	
 	/** Closes the overlay when 'Apply' is pressed
 	 */
-	dictRowBIC chooseFirstInTable(){
-		dictRowBIC result;
+	public DictRowBIC chooseFirstInTable(){
+		DictRowBIC result;
 		WebElement row = fBIC.findElement(elementFirstRowInTable);
 
-		result = new dictRowBIC(row);
+		result = new DictRowBIC(row);
 		
 		row.click();
 		fBIC.findElement(buttonApply).click();

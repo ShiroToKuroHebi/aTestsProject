@@ -4,13 +4,16 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import vtbStand.pages.NewRPForm_MT;
+import vtbStand.tests.BICFieldOnCreateRPFormTests;
+import vtbStand.tests.Msg4BankFieldTests;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-public class test_000_start {
+public class EntryPoint {
 	private WebDriver chrome = new ChromeDriver();
-    private static Logger logger = Logger.getLogger(test_000_start.class);
+    private static Logger logger = Logger.getLogger(EntryPoint.class);
     private PropertyValues settings = new PropertyValues();
     
     private void testMsg4BankField(NewRPForm_MT newRPForm_MT) {

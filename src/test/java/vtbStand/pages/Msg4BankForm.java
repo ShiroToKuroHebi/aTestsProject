@@ -1,17 +1,14 @@
-package vtbStand;
+package vtbStand.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 /** DICTIONARY!!!
  */
-class Msg4BankForm {
-	private WebDriver drvr;
-	private WebDriverWait wait;
-	
+public class Msg4BankForm extends Page{
+
 	private final static String fHeader = "Типовые сообщения для банка";
 	
 	// Page-specific locators
@@ -24,11 +21,7 @@ class Msg4BankForm {
 	
 	
 	
-	Msg4BankForm (WebDriver driver) {
-		drvr = driver;
-		wait = new WebDriverWait(drvr, 10);
+	public Msg4BankForm (WebDriver driver) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(formMessageForBank));
-		
-		
 	}
 }

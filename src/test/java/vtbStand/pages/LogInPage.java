@@ -1,6 +1,5 @@
-package vtbStand;
+package vtbStand.pages;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -17,10 +16,6 @@ public class LogInPage extends Page {
 	
 
 	
-	public LogInPage (WebDriver driver) {
-		this.drvr = driver;
-	}
-
 	/** Заполнить поле имени пользователя строкой login
 	 */
 	public void typeUsername(String login) {
@@ -39,6 +34,6 @@ public class LogInPage extends Page {
 	 */
 	public MainPage clickLoginButton() {
 		buttonLogin.click();
-		return new MainPage(drvr);
+		return Page.mainPage();
 	}
 }
