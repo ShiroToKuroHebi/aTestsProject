@@ -59,7 +59,7 @@ public class Page {
 	}
 	
 	public static Msg4BankForm msg4BankForm() {
-		Msg4BankForm result = new Msg4BankForm(drvr);
+		Msg4BankForm result = new Msg4BankForm();
 		PageFactory.initElements(drvr,result);
 		
 		return result;

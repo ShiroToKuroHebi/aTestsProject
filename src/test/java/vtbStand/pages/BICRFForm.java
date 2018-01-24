@@ -14,9 +14,9 @@ import java.util.List;
  *  Actually, this one is not a 'form' but an 'overlap'.
  */
 public class BICRFForm extends Page {
-	private final static String fHeader = "Российские банки (БИК РФ)";
+	private final static String HEADER = "Российские банки (БИК РФ)";
 	
-	@FindBy(xpath = "//div[text()='" + fHeader + "']/ancestor::div[contains(@class,'Overlap__base')]")
+	@FindBy(xpath = "//div[text()='" + HEADER + "']/ancestor::div[contains(@class,'Overlap__base')]")
 	@CacheLookup
 			private WebElement form;
 	
