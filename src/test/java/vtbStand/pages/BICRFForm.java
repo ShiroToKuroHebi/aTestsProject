@@ -1,51 +1,65 @@
 package vtbStand.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.CacheLookup;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import vtbStand.DictRowBIC;
+
+import java.util.List;
 
 /** DICTIONARY!!!
  *  This is 'BIC RF Form'
  *  Actually, this one is not a 'form' but an 'overlap'.
  */
-public class BICRFForm extends Page{
-	
+public class BICRFForm extends Page {
 	private final static String fHeader = "Российские банки (БИК РФ)";
 	
-	//By formBIC = By.xpath("//div[text()=\""+fHeader+"\"]/ancestor::?..");
-
-	//Поменяй локатор
-	private final static By formBIC = By.xpath("//div[text()=\"" + fHeader + "\"]/../../.."); //3rd parent from header - the form we need
-
-	//Лучше найти все строки таблицы, потом уже выбирать перую из List
-
-	private final static By elementFirstRowInTable = By.xpath(".//div[@class=\"table__body\"]/div[1]");
-
-	//Это плохой локатор, используй contains в xpath к примеру
-	private final static By buttonApply = By.xpath(".//button[@class=\"Button__base--3ZP3W Button__basePrimary--3ryz2\"]");
+	@FindBy(xpath = "//div[text()='" + fHeader + "']/ancestor::div[contains(@class,'Overlap__base')]")
+	@CacheLookup
+			private WebElement form;
 	
-	private WebElement fBIC;
+	@FindBy(xpath = "//div[contains(@class,'OverlapFooter')]//div[text()='Применить']/ancestor::button")
+	@CacheLookup
+			private WebElement buttonApply;
 	
-	/** When called from creating new RP form (MT/ST)
+	By tableRows = By.xpath("//div[contains(@class,'table__row')]");
+	
+
+
+	/** Closes the overlay because 'apply()' is used
+	 *  TODO More work to do?
 	 */
-	public BICRFForm(WebDriver driver) {
-		fBIC = drvr.findElement(formBIC);
-	}
-	
-	/** Closes the overlay when 'Apply' is pressed
-	 */
-	public DictRowBIC chooseFirstInTable(){
-		DictRowBIC result;
-		WebElement row = fBIC.findElement(elementFirstRowInTable);
+	public DictRowBIC chooseFirstInTable() {
+		WebElement row = getTableRows().get(0);
 
-		result = new DictRowBIC(row);
+		DictRowBIC result = new DictRowBIC(row);
 		
 		row.click();
-		fBIC.findElement(buttonApply).click();
-		wait.until(ExpectedConditions.invisibilityOf(fBIC));
-		
+
+		apply();
+
 		return result;
 	}
+	
+	/** Gets presented number of rows in table (20 by default?)
+	 */
+	public List<WebElement> getTableRows() {
+		return form.findElements(tableRows);
+	}
+	
+	/** Clicks 'Apply', thus:
+	 *  passing chosen table row from dictionary to parent form
+	 *  AND
+	 *  closing the overlay
+	 */
+	// Doesn't return NewPRForm/_MT/_ST. Not sure if it should.
+	public void apply () {
+		buttonApply.click();
+		wait.until(ExpectedConditions.invisibilityOf(form));
+	}
+	
+	public WebElement getForm() {	return form;	}
+	
 }

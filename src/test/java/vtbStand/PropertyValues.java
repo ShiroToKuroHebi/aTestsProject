@@ -7,14 +7,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-class PropertyValues {
+public class PropertyValues {
 	private static Logger logger = Logger.getLogger(PropertyValues.class);
 	private Properties properties = new Properties();
 	private static InputStream inputStream;
 	
 	private final static String PROP_FILE_NAME = "settings.properties";
 	
-	String getStandURL() throws IOException {
+	public String getStandURL() throws IOException {
 		String result = "";
 		
 		try {

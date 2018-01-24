@@ -1,6 +1,5 @@
 package vtbStand.pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -11,13 +10,8 @@ public class Page {
 	
 	// Errors may appear on any page or form
 	public static String tooltipErrorXPath = "//div[@class=\"field__tooltip field__tooltip_error\"]";
-	public static By tooltipsErrors = By.xpath(Page.tooltipErrorXPath);
 	
-	public Page(){
-		// stub
-	}
-	
-	public Page(WebDriver driver) {
+	public static void initPage(WebDriver driver) {
 		drvr = driver;
 		wait = new WebDriverWait(drvr, 10);
 	}
@@ -37,28 +31,28 @@ public class Page {
 	}
 	
 	public static NewRPForm newRPForm() {
-		NewRPForm result = new NewRPForm(drvr);
+		NewRPForm result = new NewRPForm();
 		PageFactory.initElements(drvr,result);
 		
 		return result;
 	}
 	
 	public static NewRPForm_ST newRPForm_ST() {
-		NewRPForm_ST result = new NewRPForm_ST(drvr);
+		NewRPForm_ST result = new NewRPForm_ST();
 		PageFactory.initElements(drvr,result);
 		
 		return result;
 	}
 	
 	public static NewRPForm_MT newRPForm_MT() {
-		NewRPForm_MT result = new NewRPForm_MT(drvr);
+		NewRPForm_MT result = new NewRPForm_MT();
 		PageFactory.initElements(drvr,result);
 		
 		return result;
 	}
 	
 	public static BICRFForm bicRFForm() {
-		BICRFForm result = new BICRFForm(drvr);
+		BICRFForm result = new BICRFForm();
 		PageFactory.initElements(drvr,result);
 		
 		return result;

@@ -5,7 +5,7 @@ package vtbStand;
  * Опять же пользователей может быть много, не нужно тестовые данные забивать в интерфейсы
  */
 public enum ClientData {
-	BILALOVA_L_R ("1111111111", "1111111111");
+	BILALOVA_L_R("1111111111", "1111111111");
 	
 	private final String username;
 	private final String password;
@@ -15,7 +15,7 @@ public enum ClientData {
 		this.password = password;
 	}
 	
-	public String password() {	return password;    }
-	public String username() {	return username;	}
+	public String getPassword() {	return password;    }
+	public String getUsername() {	return username;	}
 	
 }

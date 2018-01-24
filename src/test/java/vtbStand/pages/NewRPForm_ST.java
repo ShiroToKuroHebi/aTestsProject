@@ -1,8 +1,9 @@
 package vtbStand.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.CacheLookup;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
@@ -11,6 +12,9 @@ import java.util.List;
  *  'Create new RP' form, 'simpleTab'
  */
 public class NewRPForm_ST extends NewRPForm {
+	@FindBy(xpath = "//div[contains(@class, 'PayDocRu__simpleTab')]")
+			private WebElement form;
+	
 	public final static String showReceiverData = "Показать реквизиты";
 	public final static String hideReceiverData = "Скрыть реквизиты";
 	public final static String invalidReceiverData = "Необходимо заполнить реквизиты";
@@ -23,38 +27,23 @@ public class NewRPForm_ST extends NewRPForm {
 	private final static By fieldReceiverBIC_ST = By.xpath(".//div[@title=\"БИК\"]//input");
 	
 	// Elements
-	public WebElement form_ST;
-	
 	public WebElement bShowHideRecData_ST;
 	public WebElement fRecBIC_ST;
 	
-	public NewRPForm_ST () {
-		// stub
-	}
-	
-	public NewRPForm_ST (WebDriver driver) {
-		wait.until(ExpectedConditions.visibilityOfElementLocated(formNewRPSimpleTab));
-		
-		form = drvr.findElement(formNewRPRoot);
-		bCreateRP = form.findElement(buttonCreateRP);
-		
-		form_ST = form.findElement(formNewRPSimpleTab);
-		
-		waitForDataLoadOnForm();
-	}
+
 	
 	/** Form is loading while value in tooltip is empty
 	 */
-	private void waitForDataLoadOnForm() {
-		WebElement lPayAccRest = form_ST.findElement(labelPayerAccountRest_ST);
+	public void waitForDataLoadOnForm() {
+		WebElement lPayAccRest = form.findElement(labelPayerAccountRest_ST);
 		
 		while (lPayAccRest.getText().isEmpty());
 	}
 	
 	/** Find 'button' for showing/hiding receiver data block
 	 */
-	public void findButtonShowHideRecData () {
-		List<WebElement> buttonsOnForm_ST = form_ST.findElements(textButtonsInReceiverBlock_ST);
+	public void findButtonShowHideRecData() {
+		List<WebElement> buttonsOnForm_ST = form.findElements(textButtonsInReceiverBlock_ST);
 
 		for (WebElement text : buttonsOnForm_ST) {
 			// it's either show-/hide-/invalidReceiverData
@@ -67,8 +56,11 @@ public class NewRPForm_ST extends NewRPForm {
 	
 	/** Click the button!
 	 */
-	public void showRecDataBlock (WebElement bShowHideRecData) {
+	public void showRecDataBlock(WebElement bShowHideRecData) {
 		bShowHideRecData.click();
-		wait.until(ExpectedConditions.visibilityOf(fRecBIC_ST = form_ST.findElement(fieldReceiverBIC_ST)));
+		wait.until(ExpectedConditions.visibilityOf(fRecBIC_ST = form.findElement(fieldReceiverBIC_ST)));
 	}
+	
+	public WebElement getForm() {	return form;	}
+
 }

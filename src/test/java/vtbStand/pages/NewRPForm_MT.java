@@ -1,82 +1,84 @@
 package vtbStand.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.CacheLookup;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 /** That would be the
  *  'Create new RP' form, 'mainTab'
  */
 public class NewRPForm_MT extends NewRPForm {
+	@FindBy(xpath = "//div[@title='Расчетный счет плательщика']//input")
+	@CacheLookup
+			private WebElement fieldPayerAccount;
+	
+	@FindBy(xpath = "//div[@title='Банк получателя']//textarea")
+	@CacheLookup
+			private WebElement fieldRecBankName;
+	
+	@FindBy(xpath = "//button[text()='БИК']")
+	@CacheLookup
+			private WebElement buttonRecBIC;
+	
+	@FindBy(xpath = "//div[@title='БИК']//input")
+	@CacheLookup
+			private WebElement fieldRecBIC;
+	
+	@FindBy(xpath = "//div[text()='Сообщение для банка']")
+	@CacheLookup
+			private WebElement headerMsg4BankBlock;
+	
+	@FindBy(xpath = "//div[contains(@class, 'PayDocRu__mainTab')]")
+	@CacheLookup
+			private WebElement form;
+	
+	
+	
 	// Control messages
 	public final static String BIC_UNKNOWN = "Указанный БИК не найден в справочнике российских банков, выполнение проверки ключа счета не доступно";//, выполнение проверки ключа счета не доступно";
 	public final static String BIC_TOO_SHORT = "БИК должен состоять из 9 цифр";
 	public final static String BIC_MUST_BE_NONEMPTY = "Поле БИК банка получателя обязательно для заполнения";
 	
 	// Page-specific locators
-	private final static By fieldPayerAccount_MT = By.xpath(".//div[@title=\"Расчетный счет плательщика\"]/div[2]/div[1]/input");
-	private final static By buttonReceiverBICDict_MT = By.xpath(".//button[text()=\"БИК\"]");
-	private final static By fieldReceiverBIC_MT = By.xpath(".//div[@title='БИК']/div[2]/div[1]/input");
-	private final static By fieldReceiverBankName_MT = By.xpath(".//textarea[@disabled]"); // may lead to an error?
-	private final static By buttonShowHideMessageForBankBlock_MT = By.xpath(".//div[text()=\"Сообщение для банка\"]");
-	private final static By buttonMessageForBankDict_MT = By.xpath(".//button[text()=\"Сообщение для банка\"]");
+	private final static By buttonMessageForBankDict_MT = By.xpath("//button[text()=\"Сообщение для банка\"]");
 	
 	// Elements
-	public WebElement form_MT;
-	
-	public WebElement bRecBIC_MT;
-	public WebElement fRecBIC_MT;
-	public WebElement fRecBankName_MT;
-	public WebElement bShowHideMsg4B_MT;
 	public WebElement bMsg4B_MT;
 	
-	
-	
-	public NewRPForm_MT () {
-		// stub
-	}
-	
-	/** Get driver
-	 *  + initialize form elements
-	 */
-	public NewRPForm_MT (WebDriver driver) {
-		wait.until(ExpectedConditions.visibilityOfElementLocated(formNewRPMainTab));
-		
-		form = drvr.findElement(formNewRPRoot);
-		bCreateRP = form.findElement(buttonCreateRP);
 
-		form_MT = form.findElement(formNewRPMainTab);
-		bRecBIC_MT = form.findElement(buttonReceiverBICDict_MT);
-		fRecBIC_MT = form.findElement(fieldReceiverBIC_MT);
-		fRecBankName_MT = form.findElement(fieldReceiverBankName_MT);
-		
-		bShowHideMsg4B_MT = form_MT.findElement(buttonShowHideMessageForBankBlock_MT);
-
-		waitForDataLoadOnForm();
-	}
 	
 	/** Form is loading while value in field is empty
+	 *  TODO CHANGE IT!
 	 */
-	private void waitForDataLoadOnForm() {
-		WebElement fPayAcc = form.findElement(fieldPayerAccount_MT);
-		
-		while (fPayAcc.getAttribute("value").isEmpty());
+	public void waitForDataLoadOnForm() {
+		while (fieldPayerAccount.getAttribute("value").isEmpty());
 	}
 	
 	/** Show 'Message for bank' data-block
 	 *  By default - always hidden
 	 */
 	public void showMsg4BankBlock () {
-		bShowHideMsg4B_MT.click();
-		wait.until(ExpectedConditions.visibilityOf((bMsg4B_MT = form_MT.findElement(buttonMessageForBankDict_MT))));
+		headerMsg4BankBlock.click();
+		wait.until(ExpectedConditions.visibilityOf((bMsg4B_MT = form.findElement(buttonMessageForBankDict_MT))));
 	}
 	
 	/** Hide 'Message for bank' data-block
 	 *  By default - always hidden
 	 */
 	public void hideMsg4BankBlock() {
-		bShowHideMsg4B_MT.click();
-		wait.until(ExpectedConditions.invisibilityOf((bMsg4B_MT = form_MT.findElement(buttonMessageForBankDict_MT))));
+		headerMsg4BankBlock.click();
+		wait.until(ExpectedConditions.invisibilityOf((bMsg4B_MT = form.findElement(buttonMessageForBankDict_MT))));
 	}
+	
+	public BICRFForm openBICDictionary() {
+		buttonRecBIC.click();
+		return Page.bicRFForm();
+	}
+
+	public WebElement getForm() {	return form;	}
+	public WebElement getFieldRecBankName() {	return fieldRecBankName;	}
+	public WebElement getFieldRecBIC() {	return fieldRecBIC;	}
+	
 }
