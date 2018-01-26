@@ -1,8 +1,6 @@
 package vtbStand;
 
 /*
-TODO Почему для хранения данных исплользовал интерфейс, для тестов мы можем использовать большое количество банков, то сделай Enum.
-Сделано
 TODO (2) Вынести Random Data в другое место
  */
 
@@ -36,7 +34,7 @@ public enum BankData {
 	
 	
 	// -==| Random Data |==-
-	public static String NUMBERS_5x0 = "00000";
-	public static String NUMBERS_9x0 = "000000000";
-	public static String NO_DIGITS_STRING = "qazWSX~!@#$%^&*()\".,;:'[]{}-_=+`?/\\|<>увсКАМ№";
+	public final static String NUMBERS_5x0 = "00000";
+	public final static String NUMBERS_9x0 = "000000000";
+	public final static String NO_DIGITS_STRING = "qazWSX~!@#$%^&*()\".,;:'[]{}-_=+`?/\\|<>увсКАМ№";
 }

@@ -31,7 +31,6 @@ public class NewRPForm_MT extends NewRPForm {
 			private WebElement headerMsg4BankBlock;
 	
 	@FindBy(xpath = "//div[contains(@class, 'PayDocRu__mainTab')]")
-	@CacheLookup
 			private WebElement form;
 	
 	
@@ -42,26 +41,16 @@ public class NewRPForm_MT extends NewRPForm {
 	public final static String BIC_MUST_BE_NONEMPTY = "Поле БИК банка получателя обязательно для заполнения";
 	
 	// Page-specific locators
-	private final static By buttonMessageForBankDict_MT = By.xpath("//button[text()=\"Сообщение для банка\"]");
+	private static By buttonMsgForBankDict = By.xpath("//button[text()='Сообщение для банка']");
 	
-	// Elements
-	public WebElement bMsg4B_MT;
 	
-
-	
-	/** Form is loading while value in field is empty
-	 *  TODO CHANGE IT!
-	 */
-	public void waitForDataLoadOnForm() {
-		while (fieldPayerAccount.getAttribute("value").isEmpty());
-	}
 	
 	/** Show 'Message for bank' data-block
 	 *  By default - always hidden
 	 */
 	public void showMsg4BankBlock () {
 		headerMsg4BankBlock.click();
-		wait.until(ExpectedConditions.visibilityOf((bMsg4B_MT = form.findElement(buttonMessageForBankDict_MT))));
+		wait.until(ExpectedConditions.visibilityOf(form.findElement(buttonMsgForBankDict)));
 	}
 	
 	/** Hide 'Message for bank' data-block
@@ -69,7 +58,7 @@ public class NewRPForm_MT extends NewRPForm {
 	 */
 	public void hideMsg4BankBlock() {
 		headerMsg4BankBlock.click();
-		wait.until(ExpectedConditions.invisibilityOf((bMsg4B_MT = form.findElement(buttonMessageForBankDict_MT))));
+		wait.until(ExpectedConditions.invisibilityOf(form.findElement(buttonMsgForBankDict)));
 	}
 	
 	public BICRFForm openBICDictionary() {

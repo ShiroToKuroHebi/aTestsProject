@@ -15,9 +15,9 @@ public class Msg4BankFieldTests {
 	 *  Код - "D1"; имеет расшифровку (?..). Тип документа "Платежное поручение". Сообщение - не заполнено.
 	 */
 	@Test
-	public static void vtbdbotlab5357_01(WebDriver driver) {
+	public static void vtbdbotlab5357_01() {
 	
-		Msg4BankForm msg4BankForm = new Msg4BankForm(driver);
+		Msg4BankForm msg4BankForm = new Msg4BankForm();
 		
 		
 	}
@@ -29,7 +29,7 @@ public class Msg4BankFieldTests {
 	 *  (+ добавить удаление записи)
 	 */
 	@Test
-	public static void vtbdbotlab5357_02(WebDriver driver) {
+	public static void vtbdbotlab5357_02() {
 	
 	}
 	
@@ -40,7 +40,7 @@ public class Msg4BankFieldTests {
 	 *  (+ добавить удаление записи)
 	 */
 	@Test
-	public static void vtbdbotlab5357_03(WebDriver driver) {
+	public static void vtbdbotlab5357_03() {
 	
 	}
 	
@@ -51,7 +51,7 @@ public class Msg4BankFieldTests {
 	 *  (* отбросить сохранение записи)
 	 */
 	@Test
-	public static void vtbdbotlab5357_04(WebDriver driver) {
+	public static void vtbdbotlab5357_04() {
 	
 	}
 	
@@ -60,7 +60,7 @@ public class Msg4BankFieldTests {
 	 *  Изменить значение по умолчанию в пилотной версии невозможно (окай)
 	 */
 	@Test
-	public static void vtbdbotlab5357_05(WebDriver driver) {
+	public static void vtbdbotlab5357_05() {
 	
 	}
 	
@@ -70,7 +70,7 @@ public class Msg4BankFieldTests {
 	 *  Символы ввести нельзя
 	 */
 	@Test
-	public static void vtbdbotlab5357_06(WebDriver driver) {
+	public static void vtbdbotlab5357_06() {
 	
 	}
 	
@@ -79,7 +79,7 @@ public class Msg4BankFieldTests {
 	 *  Заполнить вручную невозможно
 	 */
 	@Test
-	public static void vtbdbotlab5357_07(WebDriver driver) {
+	public static void vtbdbotlab5357_07() {
 	
 	}
 	
@@ -89,7 +89,7 @@ public class Msg4BankFieldTests {
 	 *  Ошибка "Поле сообщение обязательно для заполнения"
 	 */
 	@Test
-	public static void vtbdbotlab5357_08(WebDriver driver) {
+	public static void vtbdbotlab5357_08() {
 	
 	}
 	
