@@ -181,7 +181,10 @@ public class BICFieldOnCreateRPFormTests {
 		
 		// Additional part
 		newRPForm_MT.getFieldRecBIC().clear();
-		newRPForm_MT.getFieldRecBIC().sendKeys(BankData.NUMBERS_5x0);
+
+		assertTrue("Failed to pass '" + BankData.NUMBERS_5x0 + "' to field 'БИК (банка получателя)'",
+				Page.fillFieldWithValidValue(newRPForm_MT.getFieldRecBIC(), BankData.NUMBERS_5x0));
+
 		assertTrue("+ FAILED", !newRPForm_MT.getFieldRecBIC().getAttribute("value").isEmpty());
 		
 		logger.info("PASSED");

@@ -30,11 +30,6 @@ public class NewRPForm_ST extends NewRPForm {
 	
 	
 	
-	// Elements
-	public WebElement bShowHideRecData_ST;
-	
-
-	
 	/** Click the button!
 	 */
 	public void showRecDataBlock() {

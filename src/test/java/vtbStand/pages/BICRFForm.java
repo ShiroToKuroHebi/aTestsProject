@@ -50,7 +50,7 @@ public class BICRFForm extends Page {
 	}
 	
 	/** Clicks 'Apply', thus:
-	 *  passing chosen table row from dictionary to parent form
+	 *  passing chosen table row (if there is one) from dictionary to parent form
 	 *  AND
 	 *  closing the overlay
 	 */
