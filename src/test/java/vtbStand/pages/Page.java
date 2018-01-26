@@ -1,6 +1,7 @@
 package vtbStand.pages;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -63,6 +64,25 @@ public class Page {
 		PageFactory.initElements(drvr,result);
 		
 		return result;
+	}
+	
+
+
+	// Fields present on many pages
+	/** Pass the %value to %field,
+	 *  As a result %field will contain given %value,
+	 *  Returns true, if successful, otherwise - false.
+	 */
+	public static boolean fillFieldWithValidValue (WebElement field, String value) {
+		for (int i = 0; i < 5; i++) {
+			field.clear();
+			field.sendKeys(value);
+			if (field.getText().equals(value) || field.getAttribute("value").equals(value)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 }

@@ -23,7 +23,6 @@ public class BICFieldOnCreateRPFormTests {
 	private static PropertyValues settings = new PropertyValues();
 	private static Logger logger = Logger.getLogger(BICFieldOnCreateRPFormTests.class);
 
-
 	private static LogInPage login;
 	private static MainPage main;
 	private static NewRPForm_MT newRPForm_MT;
@@ -49,9 +48,9 @@ public class BICFieldOnCreateRPFormTests {
 		logger.info("-------");
 		chrome.quit();
 	}
-
 	
-
+	
+	
 	/** Проверить поле "БИК банка получателя"
 	 *  Ожидается:
 	 *  Поле пустое
@@ -70,7 +69,6 @@ public class BICFieldOnCreateRPFormTests {
 	/** Заполнить "вручную" поле "БИК банка получателя"
 	 *  Ожидается:
 	 *  Редактирование поля (вручную) возможно
-	 *  TODO change it?..
 	 */
 	@Test
 	public void checkIfEditable() {
@@ -80,13 +78,8 @@ public class BICFieldOnCreateRPFormTests {
 		
 		// that way it works always - even when not in Debug
 
-		//А если условие выхода из цикла никонда не выполнится, он тут так и будет висеть?
-		do {
-			newRPForm_MT.getFieldRecBIC().clear();
-			newRPForm_MT.getFieldRecBIC().sendKeys(BankData.NUMBERS_5x0);
-		} while (!newRPForm_MT.getFieldRecBIC().getAttribute("value").equals(BankData.NUMBERS_5x0));
-		
-		assertTrue("FAILED", newRPForm_MT.getFieldRecBIC().getAttribute("value").equals(BankData.NUMBERS_5x0));
+		assertTrue("Failed to pass '" + BankData.NUMBERS_5x0 + "' to field 'БИК (банка получателя)'",
+				Page.fillFieldWithValidValue(newRPForm_MT.getFieldRecBIC(), BankData.NUMBERS_5x0));
 		
 		logger.info("PASSED");
 	}
@@ -102,7 +95,9 @@ public class BICFieldOnCreateRPFormTests {
 		
 		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
 		
+		// Not using Page.fillFieldWithValidValue(), because empty field expected after sendKeys()
 		newRPForm_MT.getFieldRecBIC().sendKeys(BankData.NO_DIGITS_STRING);
+		
 		assertTrue("FAILED", newRPForm_MT.getFieldRecBIC().getAttribute("value").isEmpty());
 		
 		logger.info("PASSED");
@@ -112,7 +107,6 @@ public class BICFieldOnCreateRPFormTests {
 	 *  (= отсутствие проверки на длину БИКа, если БИК известен!)
 	 *  Ожидается:
 	 *  Контроли на длину поля не сработали
-	 *  TODO CHANGE IT!
 	 */
 	@Test
 	public void checkIfLengthControlAllows9Digits() {
@@ -120,11 +114,8 @@ public class BICFieldOnCreateRPFormTests {
 		
 		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
 
-		//Не надо использовать циклы для ожиданий событий со страницей!
-		do {
-			newRPForm_MT.getFieldRecBIC().clear();
-			newRPForm_MT.getFieldRecBIC().sendKeys(BankData.FONDSERVICEBANK.getBIC());
-		} while (!newRPForm_MT.getFieldRecBIC().getAttribute("value").equals(BankData.FONDSERVICEBANK.getBIC()));
+		assertTrue("Failed to pass '" + BankData.FONDSERVICEBANK.getBIC() + "' to field 'БИК (банка получателя)'",
+				Page.fillFieldWithValidValue(newRPForm_MT.getFieldRecBIC(), BankData.FONDSERVICEBANK.getBIC()));
 		
 		newRPForm_MT.getForm().click();
 		
@@ -151,20 +142,19 @@ public class BICFieldOnCreateRPFormTests {
 	 *  Сработал контроль (см. NewRPForm_MT.BIC_TOO_SHORT)
 	 *  (!) Ноль символов - тоже меньше 9, но проверяется другим тестом и
 	 *  использует другое сообщение об ошибке
-	 *  TODO CHANGE IT!
+	 *  (!) Можно использовать в качестве проверки на редактируемость (вместо checkIfEditable())
 	 */
 	@Test
 	public void checkIfLessThan9DigitsIsNotAllowed() {
 		logger.info("STARTED checkIfLessThan9DigitsIsNotAllowed");
 		
 		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
-		//Не надо использовать циклы для ожиданий событий со страницей!
-		do {
-			newRPForm_MT.getFieldRecBIC().clear();
-			newRPForm_MT.getFieldRecBIC().sendKeys(BankData.NUMBERS_5x0);
-		} while (!newRPForm_MT.getFieldRecBIC().getAttribute("value").equals(BankData.NUMBERS_5x0));
+
+		assertTrue("Failed to pass '" + BankData.NUMBERS_5x0 + "' to field 'БИК (банка получателя)'",
+				Page.fillFieldWithValidValue(newRPForm_MT.getFieldRecBIC(), BankData.NUMBERS_5x0));
 		
 		newRPForm_MT.clickCreateRP();
+		
 		// comparing exact error tooltip text
 		assertTrue("FAILED", newRPForm_MT.getForm()
 				.findElement(By.xpath("//div[@title=\"БИК\"]" + Page.tooltipErrorXPath))
@@ -201,30 +191,31 @@ public class BICFieldOnCreateRPFormTests {
 	 *  Ожидается:
 	 *  Сработал контроль (см. NewRPForm_MT.BIC_MUST_BE_NONEMPTY)
 	 *  Фактически:
-	 *  Необходимое сообщение возникает только если кнопка сохранить была нажата сразу после открытия формы или
-	 *  было введено менее 9 символов. Иначе (введён не-/известный БИК) сообщение контроля не возникает!
-	 *  TODO CHANGE IT!
+	 *  Необходимое сообщение возникает только если кнопка сохранить была нажата сразу после
+	 *  открытия формы или было введено значение и фокус был перемещён с поля.
+	 *  Иначе (введён не-/известный БИК) сообщение не возникает!
 	 */
 	@Test
-	public void checkIfMustBeFilledWithValidValue() {
-		logger.info("STARTED checkIfMustBeFilledWithValidValue");
+	public void checkIfMustBeNonempty () {
+		logger.info("STARTED checkIfMustBeNonempty");
 		
 		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
-		//Не надо использовать циклы для ожиданий событий со страницей!
-		do {
-			newRPForm_MT.getFieldRecBIC().clear();
-			newRPForm_MT.getFieldRecBIC().sendKeys(BankData.NUMBERS_9x0);
-		} while (!newRPForm_MT.getFieldRecBIC().getAttribute("value").equals(BankData.NUMBERS_9x0));
+
+		assertTrue("Failed to pass '" + BankData.NUMBERS_9x0 + "' to field 'БИК (банка получателя)'",
+				Page.fillFieldWithValidValue(newRPForm_MT.getFieldRecBIC(), BankData.NUMBERS_9x0));
+		
+		// перевести фокус с поля
+		newRPForm_MT.getForm().click();
 		
 		newRPForm_MT.getFieldRecBIC().clear();
 		newRPForm_MT.clickCreateRP();
 		
 		// comparing exact error tooltip text
-		assertTrue("48/05 FAILED",	newRPForm_MT.getForm()
+		assertTrue("FAILED",	newRPForm_MT.getForm()
 				.findElement(By.xpath("//div[@title=\"БИК\"]" + Page.tooltipErrorXPath))
 				.getText().equals(NewRPForm_MT.BIC_MUST_BE_NONEMPTY));
 		
-		logger.info("PASSED (NOT)");
+		logger.info("PASSED");
 	}
 	
 	/** OUTDATED?
@@ -233,7 +224,6 @@ public class BICFieldOnCreateRPFormTests {
 	 *  Сработал контроль (см. NewRPForm_MT.BIC_UNKNOWN)
 	 *  Фактически:
 	 *  Сообщение контроля несколько отличается (см. комментарий для NewRPForm_MT.BIC_UNKNOWN)
-	 *  TODO CHANGE IT!
 	 */
 	@Test
 	public void checkIfUnknownBICNotAllowed() {
@@ -241,10 +231,8 @@ public class BICFieldOnCreateRPFormTests {
 		
 		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
 		
-		do {
-			newRPForm_MT.getFieldRecBIC().clear();
-			newRPForm_MT.getFieldRecBIC().sendKeys(BankData.NUMBERS_9x0);
-		} while (!newRPForm_MT.getFieldRecBIC().getAttribute("value").equals(BankData.NUMBERS_9x0));
+		assertTrue("Failed to pass '" + BankData.NUMBERS_9x0 + "' to field 'БИК (банка получателя)'",
+				Page.fillFieldWithValidValue(newRPForm_MT.getFieldRecBIC(), BankData.NUMBERS_9x0));
 		
 		newRPForm_MT.clickCreateRP();
 		
