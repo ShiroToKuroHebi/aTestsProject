@@ -33,6 +33,8 @@ public class NewRPForm_MT extends NewRPForm {
 	@FindBy(xpath = "//div[contains(@class, 'PayDocRu__mainTab')]")
 			private WebElement form;
 	
+	@FindBy(xpath = "//button[text()='Сообщение для банка']")
+			private WebElement buttonMsg4BankDict;
 	
 	
 	// Control messages
@@ -66,8 +68,13 @@ public class NewRPForm_MT extends NewRPForm {
 		return Page.bicRFForm();
 	}
 
+	public Msg4BankForm openMsg4BankDictionary() {
+		buttonMsg4BankDict.click();
+		return Page.msg4BankForm();
+	}
+	
 	public WebElement getForm() {	return form;	}
 	public WebElement getFieldRecBankName() {	return fieldRecBankName;	}
 	public WebElement getFieldRecBIC() {	return fieldRecBIC;	}
-	
+	public WebElement getButtonMsg4BankDict() {	return buttonMsg4BankDict;	}
 }

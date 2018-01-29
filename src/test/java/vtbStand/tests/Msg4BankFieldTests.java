@@ -11,6 +11,7 @@ public class Msg4BankFieldTests extends Tests{
 	private static LogInPage login;
 	private static MainPage main;
 	private static NewRPForm_MT newRPForm_MT;
+	private static Msg4BankForm msg4BankForm;
 	
 	
 	@Before
@@ -22,7 +23,12 @@ public class Msg4BankFieldTests extends Tests{
 		//		login.typePassword(ClientData.BILALOVA_L_R.getUsername());
 		
 		main = login.clickLoginButton();
+		logger.info("Logged in as default user");
+		
 		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
+		newRPForm_MT.showMsg4BankBlock();
+		
+		msg4BankForm = newRPForm_MT.openMsg4BankDictionary();
 	}
 	
 	

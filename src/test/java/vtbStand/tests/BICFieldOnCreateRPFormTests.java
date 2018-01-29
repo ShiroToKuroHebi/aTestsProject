@@ -45,6 +45,8 @@ public class BICFieldOnCreateRPFormTests extends Tests {
 		logger.info("checkIfEmptyByDefault");
 		
 		assertTrue("FAILED", newRPForm_MT.getFieldRecBIC().getAttribute("value").isEmpty());
+		
+		logger.info("PASSED");
 	}
 	
 	/** Заполнить "вручную" поле "БИК банка получателя"
@@ -58,6 +60,8 @@ public class BICFieldOnCreateRPFormTests extends Tests {
 		// that way it works always - even when not in Debug
 		assertTrue("Failed to pass '" + BankData.NUMBERS_5x0 + "' to field 'БИК (банка получателя)'",
 				Page.fillFieldWithValidValue(newRPForm_MT.getFieldRecBIC(), BankData.NUMBERS_5x0));
+		
+		logger.info("PASSED");
 	}
 	
 	/** Заполнить поле "БИК банка получателя" любыми символами, кроме цифр
@@ -73,6 +77,8 @@ public class BICFieldOnCreateRPFormTests extends Tests {
 		newRPForm_MT.getFieldRecBIC().sendKeys(BankData.NO_DIGITS_STRING);
 		
 		assertTrue("FAILED", newRPForm_MT.getFieldRecBIC().getAttribute("value").isEmpty());
+		
+		logger.info("PASSED");
 	}
 	
 	/** Ввести 9 допустимых символов (только цифры), сохранить документ
@@ -103,6 +109,8 @@ public class BICFieldOnCreateRPFormTests extends Tests {
 		for (WebElement errorMsg : errorTooltips) {
 			assertTrue("FAILED", !(errorMsg.getText().equals(NewRPForm_MT.BIC_TOO_SHORT)));
 		}
+		
+		logger.info("PASSED");
 	}
 	
 	/** Ввести менее 9 допустимых символов (только цифры), сохранить документ
@@ -125,6 +133,8 @@ public class BICFieldOnCreateRPFormTests extends Tests {
 		assertTrue("FAILED", newRPForm_MT.getForm()
 				.findElement(By.xpath("//div[@title=\"БИК\"]" + Page.tooltipErrorXPath))
 				.getText().equals(NewRPForm_MT.BIC_TOO_SHORT));
+		
+		logger.info("PASSED");
 	}
 	
 	/** Выбрать БИК из справочника
@@ -156,6 +166,8 @@ public class BICFieldOnCreateRPFormTests extends Tests {
 				Page.fillFieldWithValidValue(newRPForm_MT.getFieldRecBIC(), BankData.NUMBERS_5x0));
 
 		assertTrue("+ FAILED", !newRPForm_MT.getFieldRecBIC().getAttribute("value").isEmpty());
+		
+		logger.info("PASSED");
 	}
 	
 	/** Очистить поле БИК, сохранить документ
@@ -183,6 +195,8 @@ public class BICFieldOnCreateRPFormTests extends Tests {
 		assertTrue("FAILED",	newRPForm_MT.getForm()
 				.findElement(By.xpath("//div[@title=\"БИК\"]" + Page.tooltipErrorXPath))
 				.getText().equals(NewRPForm_MT.BIC_MUST_BE_NONEMPTY));
+		
+		logger.info("PASSED");
 	}
 	
 	/** OUTDATED?
@@ -206,6 +220,8 @@ public class BICFieldOnCreateRPFormTests extends Tests {
 		assertTrue("FAILED", newRPForm_MT.getForm()
 				.findElement(By.xpath("//div[@title=\"БИК\"]" + Page.tooltipErrorXPath))
 				.getText().equals(NewRPForm_MT.BIC_UNKNOWN));
+		
+		logger.info("PASSED");
 	}
 	
 	/** Открыть (?)универсальную форму ПП, очистить поле "БИК банка получателя", скрыть блок получателя
@@ -249,6 +265,8 @@ public class BICFieldOnCreateRPFormTests extends Tests {
 		assertTrue("FAILED", newRPForm_ST.getButtonShowHideRecData()
 				.findElement(By.xpath("./div"))
 				.getText().equals(NewRPForm_ST.invalidReceiverData));
+		
+		logger.info("PASSED");
 	}
 
 }

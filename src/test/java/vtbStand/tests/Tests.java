@@ -18,7 +18,7 @@ public class Tests {
 
 	@Before
 	public void setUp() throws IOException {
-		logger.info("STARTED");
+		logger.info("Test STARTED");
 
 		chrome = new ChromeDriver();
 		chrome.get(settings.getStandURL());
@@ -29,7 +29,7 @@ public class Tests {
 		
 	@After
 	public void tearDown() {
-		logger.info("PASSED");
+		logger.info("Test   ENDED");
 		chrome.quit();
 	}
 }
