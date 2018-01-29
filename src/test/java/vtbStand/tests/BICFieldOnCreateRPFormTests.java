@@ -27,6 +27,7 @@ public class BICFieldOnCreateRPFormTests {
 	private static MainPage main;
 	private static NewRPForm_MT newRPForm_MT;
 	private static NewRPForm_ST newRPForm_ST;
+	private static BICRFForm bicRFForm;
 	
 	@Before
 	public void setUp() throws IOException {
@@ -174,10 +175,18 @@ public class BICFieldOnCreateRPFormTests {
 		
 		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
 		
-		BICRFForm fDictBIC = newRPForm_MT.openBICDictionary();
-		DictRowBIC passedBIC = fDictBIC.chooseFirstInTable();
+		bicRFForm = newRPForm_MT.openBICDictionary();
+		WebElement row = bicRFForm.getTableRows().get(0);
+		row.click();
+		bicRFForm.apply();
 		
-		assertTrue("FAILED", newRPForm_MT.getFieldRecBIC().getAttribute("value").equals(passedBIC.BIC));
+		//assertTrue("FAILED", newRPForm_MT.getFieldRecBIC().getAttribute("value").equals(new BankData(row).getBIC()));
+		//if done using DictRowBIC() /\
+		assertTrue(
+				"FAILED",
+				newRPForm_MT.getFieldRecBIC().getAttribute("value").equals(
+						row.findElement(By.xpath(".//div/div[0]/span")).getText())
+		);
 		
 		// Additional part
 		newRPForm_MT.getFieldRecBIC().clear();
@@ -262,7 +271,9 @@ public class BICFieldOnCreateRPFormTests {
 		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
 		
 		// fill BIC field from dictionary
-		newRPForm_MT.openBICDictionary().chooseFirstInTable();
+		bicRFForm = newRPForm_MT.openBICDictionary();
+		bicRFForm.getTableRows().get(0).click();
+		bicRFForm.apply();
 		
 		// wait until data is loaded
 		newRPForm_MT.getForm().click();

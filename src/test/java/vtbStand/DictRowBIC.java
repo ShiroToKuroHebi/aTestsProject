@@ -4,8 +4,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
-//Название класса в верблюжем формате, не надо начинать классы с маленькой буквы
 //Не понятно для чего  класс этот, чтобы один кас кликнуть по строке?
+
+// (*) Изменил логику теста, данный класс больше не используется.
+// Оставлен на случай, если понадобится в дальнейшем
 public class DictRowBIC {
 	public final String BIC;
 	public final String NAME;

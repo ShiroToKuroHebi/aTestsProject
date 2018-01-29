@@ -69,7 +69,7 @@ public class Page {
 
 
 	// Fields present on many pages
-	/** Pass the %value to %field,
+	/** Pass the %value to %field (number of attempts = 5),
 	 *  As a result %field will contain given %value,
 	 *  Returns true, if successful, otherwise - false.
 	 */
