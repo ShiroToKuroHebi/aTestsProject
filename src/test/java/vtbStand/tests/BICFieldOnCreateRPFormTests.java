@@ -1,28 +1,19 @@
 package vtbStand.tests;
 
-import org.apache.log4j.Logger;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import vtbStand.*;
 import vtbStand.pages.*;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertTrue;
 
-public class BICFieldOnCreateRPFormTests {
-	private static WebDriver chrome;
-	private static PropertyValues settings = new PropertyValues();
-	private static Logger logger = Logger.getLogger(BICFieldOnCreateRPFormTests.class);
-
+public class BICFieldOnCreateRPFormTests extends Tests {
 	private static LogInPage login;
 	private static MainPage main;
 	private static NewRPForm_MT newRPForm_MT;
@@ -31,26 +22,19 @@ public class BICFieldOnCreateRPFormTests {
 	
 	@Before
 	public void setUp() throws IOException {
-		chrome = new ChromeDriver();
-		chrome.get(settings.getStandURL());
-		chrome.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		
-		Page.initPage(chrome);
+		super.setUp();
 		
 		login = Page.logInPage();
-//		login.typeUsername(ClientData.BILALOVA_L_R.getPassword());
-//		login.typePassword(ClientData.BILALOVA_L_R.getUsername());
+		//		login.typeUsername(ClientData.BILALOVA_L_R.getPassword());
+		//		login.typePassword(ClientData.BILALOVA_L_R.getUsername());
 		
 		main = login.clickLoginButton();
+		logger.info("Logged in as default user");
+		
+		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
 	}
 	
-	@After
-	public void tearDown() {
-		logger.info("-------");
-		chrome.quit();
-	}
-	
-	
+
 	
 	/** Проверить поле "БИК банка получателя"
 	 *  Ожидается:
@@ -58,13 +42,9 @@ public class BICFieldOnCreateRPFormTests {
 	 */
 	@Test
 	public void checkIfEmptyByDefault() {
-		logger.info("STARTED checkIfEmptyByDefault");
-		
-		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
+		logger.info("checkIfEmptyByDefault");
 		
 		assertTrue("FAILED", newRPForm_MT.getFieldRecBIC().getAttribute("value").isEmpty());
-		
-		logger.info("PASSED");
 	}
 	
 	/** Заполнить "вручную" поле "БИК банка получателя"
@@ -73,16 +53,11 @@ public class BICFieldOnCreateRPFormTests {
 	 */
 	@Test
 	public void checkIfEditable() {
-		logger.info("STARTED checkIfEditable");
-		
-		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
+		logger.info("checkIfEditable");
 		
 		// that way it works always - even when not in Debug
-
 		assertTrue("Failed to pass '" + BankData.NUMBERS_5x0 + "' to field 'БИК (банка получателя)'",
 				Page.fillFieldWithValidValue(newRPForm_MT.getFieldRecBIC(), BankData.NUMBERS_5x0));
-		
-		logger.info("PASSED");
 	}
 	
 	/** Заполнить поле "БИК банка получателя" любыми символами, кроме цифр
@@ -92,16 +67,12 @@ public class BICFieldOnCreateRPFormTests {
 	 */
 	@Test
 	public void checkIfOnlyDigitsAllowed() {
-		logger.info("STARTED checkIfOnlyDigitsAllowed");
-		
-		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
+		logger.info("checkIfOnlyDigitsAllowed");
 		
 		// Not using Page.fillFieldWithValidValue(), because empty field expected after sendKeys()
 		newRPForm_MT.getFieldRecBIC().sendKeys(BankData.NO_DIGITS_STRING);
 		
 		assertTrue("FAILED", newRPForm_MT.getFieldRecBIC().getAttribute("value").isEmpty());
-		
-		logger.info("PASSED");
 	}
 	
 	/** Ввести 9 допустимых символов (только цифры), сохранить документ
@@ -111,10 +82,8 @@ public class BICFieldOnCreateRPFormTests {
 	 */
 	@Test
 	public void checkIfLengthControlAllows9Digits() {
-		logger.info("STARTED checkIfLengthControlAllows9Digits");
+		logger.info("checkIfLengthControlAllows9Digits");
 		
-		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
-
 		assertTrue("Failed to pass '" + BankData.FONDSERVICEBANK.getBIC() + "' to field 'БИК (банка получателя)'",
 				Page.fillFieldWithValidValue(newRPForm_MT.getFieldRecBIC(), BankData.FONDSERVICEBANK.getBIC()));
 		
@@ -134,8 +103,6 @@ public class BICFieldOnCreateRPFormTests {
 		for (WebElement errorMsg : errorTooltips) {
 			assertTrue("FAILED", !(errorMsg.getText().equals(NewRPForm_MT.BIC_TOO_SHORT)));
 		}
-		
-		logger.info("PASSED");
 	}
 	
 	/** Ввести менее 9 допустимых символов (только цифры), сохранить документ
@@ -147,10 +114,8 @@ public class BICFieldOnCreateRPFormTests {
 	 */
 	@Test
 	public void checkIfLessThan9DigitsIsNotAllowed() {
-		logger.info("STARTED checkIfLessThan9DigitsIsNotAllowed");
+		logger.info("checkIfLessThan9DigitsIsNotAllowed");
 		
-		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
-
 		assertTrue("Failed to pass '" + BankData.NUMBERS_5x0 + "' to field 'БИК (банка получателя)'",
 				Page.fillFieldWithValidValue(newRPForm_MT.getFieldRecBIC(), BankData.NUMBERS_5x0));
 		
@@ -160,8 +125,6 @@ public class BICFieldOnCreateRPFormTests {
 		assertTrue("FAILED", newRPForm_MT.getForm()
 				.findElement(By.xpath("//div[@title=\"БИК\"]" + Page.tooltipErrorXPath))
 				.getText().equals(NewRPForm_MT.BIC_TOO_SHORT));
-		
-		logger.info("PASSED");
 	}
 	
 	/** Выбрать БИК из справочника
@@ -171,9 +134,7 @@ public class BICFieldOnCreateRPFormTests {
 	 */
 	@Test
 	public void checkIfCanBeFilledFromDictionaryAndStillEditable() {
-		logger.info("STARTED checkIfCanBeFilledFromDictionaryAndStillEditable");
-		
-		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
+		logger.info("checkIfCanBeFilledFromDictionaryAndStillEditable");
 		
 		bicRFForm = newRPForm_MT.openBICDictionary();
 		WebElement row = bicRFForm.getTableRows().get(0);
@@ -195,8 +156,6 @@ public class BICFieldOnCreateRPFormTests {
 				Page.fillFieldWithValidValue(newRPForm_MT.getFieldRecBIC(), BankData.NUMBERS_5x0));
 
 		assertTrue("+ FAILED", !newRPForm_MT.getFieldRecBIC().getAttribute("value").isEmpty());
-		
-		logger.info("PASSED");
 	}
 	
 	/** Очистить поле БИК, сохранить документ
@@ -209,10 +168,8 @@ public class BICFieldOnCreateRPFormTests {
 	 */
 	@Test
 	public void checkIfMustBeNonempty () {
-		logger.info("STARTED checkIfMustBeNonempty");
+		logger.info("checkIfMustBeNonempty");
 		
-		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
-
 		assertTrue("Failed to pass '" + BankData.NUMBERS_9x0 + "' to field 'БИК (банка получателя)'",
 				Page.fillFieldWithValidValue(newRPForm_MT.getFieldRecBIC(), BankData.NUMBERS_9x0));
 		
@@ -226,8 +183,6 @@ public class BICFieldOnCreateRPFormTests {
 		assertTrue("FAILED",	newRPForm_MT.getForm()
 				.findElement(By.xpath("//div[@title=\"БИК\"]" + Page.tooltipErrorXPath))
 				.getText().equals(NewRPForm_MT.BIC_MUST_BE_NONEMPTY));
-		
-		logger.info("PASSED");
 	}
 	
 	/** OUTDATED?
@@ -239,9 +194,7 @@ public class BICFieldOnCreateRPFormTests {
 	 */
 	@Test
 	public void checkIfUnknownBICNotAllowed() {
-		logger.info("STARTED checkIfUnknownBICNotAllowed");
-		
-		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
+		logger.info("checkIfUnknownBICNotAllowed (looks like it's outdated)");
 		
 		assertTrue("Failed to pass '" + BankData.NUMBERS_9x0 + "' to field 'БИК (банка получателя)'",
 				Page.fillFieldWithValidValue(newRPForm_MT.getFieldRecBIC(), BankData.NUMBERS_9x0));
@@ -253,8 +206,6 @@ public class BICFieldOnCreateRPFormTests {
 		assertTrue("FAILED", newRPForm_MT.getForm()
 				.findElement(By.xpath("//div[@title=\"БИК\"]" + Page.tooltipErrorXPath))
 				.getText().equals(NewRPForm_MT.BIC_UNKNOWN));
-		
-		logger.info("PASSED (KINDA)");
 	}
 	
 	/** Открыть (?)универсальную форму ПП, очистить поле "БИК банка получателя", скрыть блок получателя
@@ -266,9 +217,7 @@ public class BICFieldOnCreateRPFormTests {
 	 */
 	@Test
 	public void checkIfShowsBankDataBlockOnSimpleTabOnAttemptToCreateRPWhenEmpty() {
-		logger.info("STARTED checkIfShowsBankDataBlockOnSimpleTabOnAttemptToCreateRPWhenEmpty");
-		
-		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
+		logger.info("checkIfShowsBankDataBlockOnSimpleTabOnAttemptToCreateRPWhenEmpty");
 		
 		// fill BIC field from dictionary
 		bicRFForm = newRPForm_MT.openBICDictionary();
@@ -300,8 +249,6 @@ public class BICFieldOnCreateRPFormTests {
 		assertTrue("FAILED", newRPForm_ST.getButtonShowHideRecData()
 				.findElement(By.xpath("./div"))
 				.getText().equals(NewRPForm_ST.invalidReceiverData));
-		
-		logger.info("PASSED");
 	}
 
 }

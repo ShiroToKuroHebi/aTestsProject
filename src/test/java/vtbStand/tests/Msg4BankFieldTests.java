@@ -1,21 +1,39 @@
 package vtbStand.tests;
 
-import org.apache.log4j.Logger;
+import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import vtbStand.pages.Msg4BankForm;
+import vtbStand.pages.*;
+
+import java.io.IOException;
 
 
-//Названия методов должны быть понятными
-public class Msg4BankFieldTests {
-	private static Logger logger = Logger.getLogger(Msg4BankFieldTests.class);
+public class Msg4BankFieldTests extends Tests{
+	private static LogInPage login;
+	private static MainPage main;
+	private static NewRPForm_MT newRPForm_MT;
+	
+	
+	@Before
+	public void setUp() throws IOException {
+		super.setUp();
+		
+		login = Page.logInPage();
+		//		login.typeUsername(ClientData.BILALOVA_L_R.getPassword());
+		//		login.typePassword(ClientData.BILALOVA_L_R.getUsername());
+		
+		main = login.clickLoginButton();
+		newRPForm_MT = main.openFormCreateNewRP().switchToMainTab();
+	}
+	
+	
+	
 	
 	/** Проверить заполнение полей по умолчанию
 	 *  Ожидается:
 	 *  Код - "D1"; имеет расшифровку (?..). Тип документа "Платежное поручение". Сообщение - не заполнено.
 	 */
 	@Test
-	public static void vtbdbotlab5357_01() {
+	public void vtbdbotlab5357_01() {
 	
 		Msg4BankForm msg4BankForm = new Msg4BankForm();
 		
@@ -29,7 +47,7 @@ public class Msg4BankFieldTests {
 	 *  (+ добавить удаление записи)
 	 */
 	@Test
-	public static void vtbdbotlab5357_02() {
+	public void vtbdbotlab5357_02() {
 	
 	}
 	
@@ -40,7 +58,7 @@ public class Msg4BankFieldTests {
 	 *  (+ добавить удаление записи)
 	 */
 	@Test
-	public static void vtbdbotlab5357_03() {
+	public void vtbdbotlab5357_03() {
 	
 	}
 	
@@ -51,7 +69,7 @@ public class Msg4BankFieldTests {
 	 *  (* отбросить сохранение записи)
 	 */
 	@Test
-	public static void vtbdbotlab5357_04() {
+	public void vtbdbotlab5357_04() {
 	
 	}
 	
@@ -60,7 +78,7 @@ public class Msg4BankFieldTests {
 	 *  Изменить значение по умолчанию в пилотной версии невозможно (окай)
 	 */
 	@Test
-	public static void vtbdbotlab5357_05() {
+	public void vtbdbotlab5357_05() {
 	
 	}
 	
@@ -70,7 +88,7 @@ public class Msg4BankFieldTests {
 	 *  Символы ввести нельзя
 	 */
 	@Test
-	public static void vtbdbotlab5357_06() {
+	public void vtbdbotlab5357_06() {
 	
 	}
 	
@@ -79,7 +97,7 @@ public class Msg4BankFieldTests {
 	 *  Заполнить вручную невозможно
 	 */
 	@Test
-	public static void vtbdbotlab5357_07() {
+	public void vtbdbotlab5357_07() {
 	
 	}
 	
@@ -89,7 +107,7 @@ public class Msg4BankFieldTests {
 	 *  Ошибка "Поле сообщение обязательно для заполнения"
 	 */
 	@Test
-	public static void vtbdbotlab5357_08() {
+	public void vtbdbotlab5357_08() {
 	
 	}
 	
